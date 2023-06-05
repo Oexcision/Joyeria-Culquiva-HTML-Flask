@@ -1,0 +1,139 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+:root{
+    --green:hsl(162, 45% , 56%);
+    --lead:hsl(162, 2% , 56%);
+    --blue:hsl(220, 85%, 57%);
+    --violet:hsl(272, 91%, 32%);
+    --text-white:hsl(0 , 0% , 100%);
+    --text-light-gray:hsl(0, 0%, 90%);
+    --body-bg-color:hsl(200 , 54% , 12%);
+    --glass-bg-color:hsla(0 , 0% , 100%, 0.05);
+    --border-color:hsla(0,0%,100%, 0.25);
+    --blur:blur(10px);
+    --button-hover-color:hsla(0, 0% , 0%, 0.3);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:var(--text-light-gray);
+    font-family:'Poppins', sans-serif;
+    height: 100vh;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    background-color: var(--body-bg-color);
+}
+
+body::after,
+body::before{
+    content: '';
+    position: fixed;
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+    z-index: -1;
+    filter:blur(120px);
+    opacity: 0.7;
+}
+body::before{
+    background-color: var(--blue);
+    left: 0;
+    bottom: 0;
+    transform:translate(-50%);
+
+}
+body::after{
+    background-color: var(--violet);
+    right: 0;
+    top: 0;
+    transform: translate(50%);
+}
+
+.form-body {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border: solid 2px #2980b9;
+    margin: 10px;
+
+    box-shadow:  32px 32px 0px #D9F0FF,
+                -32px -32px 0px #4E6E58; 
+}
+
+.form-body img{
+    width: 150px;
+    display: block;
+    margin: 20px auto;
+}
+
+.form-body input{
+    display: block;
+    margin: 40px;
+    height: 50px;
+    width:85%;
+    background-color: transparent;
+    border:none;
+    border-bottom: 1px solid var(--border-color);   
+    font-weight: inherit;
+    font-family: inherit;
+    font-size: 16px;
+    color: #ffffff;
+
+}
+.form-body input:focus{
+    outline: none;
+}
+
+.form-body input[type="password"]{
+    margin-top: 20px;
+
+}
+
+.form-body input[type="submit"] {
+    
+    height: 50px;
+    width: 85%;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: capitalize;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 25px;
+    user-select: none;
+    background: linear-gradient(to right,var(--green),var(--lead));
+    border: none;
+    color: var(--text-white);
+    position: relative;
+    overflow: hidden;
+}
+
+::placeholder{
+    font-size: 1rem;
+    color: rgba(255,255,255,.596);
+}
+
+.form-body input:hover {
+    transition: .5s;
+    border: 1px solid #2980b9;
+    color: #ffffff;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    font-family: inherit;
+}

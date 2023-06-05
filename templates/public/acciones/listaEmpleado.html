@@ -1,0 +1,57 @@
+
+{% if (empleados) %}
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">ID Cuenta de Usuario</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Apellido Paterno</th>
+                <th scope="col">Apellido Materno</th>
+                <th scope="col">Fecha Nacimiento</th>
+                <th scope="col">Telefono</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for empleado in empleados %}
+            <tr id="Registro_{{ empleado['_id'] }}">
+                <th scope="row">{{ empleado['_id'] }}</th>
+                <td>{{ empleado['Cuenta_Usuario'] }}</td>
+                <td>{{ empleado['DNI_Empleado'] }}</td>
+                <td>{{ empleado['Nombres'] }}</td>
+                <td>{{ empleado['ApellidoPaterno'] }}</td>
+                <td>{{ empleado['ApellidoMaterno'] }}</td>
+                <td>{{ empleado['Fecha_Nacimiento'] }}</td>
+                <td>{{ empleado['Telefono_Contacto'] }}</td>
+                
+
+                <td width="300">
+                    <span style="display: flex; justify-content:space-between;">
+                        <a href="{{ url_for('viewDetalleEmpleado', idEmpleado= empleado['_id'] ) }}" type="button"
+                            class="btn btn-warning btn-sm" tooltip="Ver Registro">
+                            <i class="bi bi-eye"></i>
+                            Ver
+                        </a>
+                        <a href="{{ url_for('formViewUpdateEmpleado', id = empleado['_id'] ) }}" class="btn btn-info btn-sm"
+                            tooltip="Actualizar Registro">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Actualizar
+                        </a>
+                        <!---->
+                    </span>
+                </td>
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h3 class="text-center">No hay Empleados</h3>
+    </div>
+</div>
+{% endif %}

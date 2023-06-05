@@ -1,0 +1,75 @@
+{% extends 'public/productos.html' %}
+{% block title %}Registrar Producto{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/productos" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Registrar Nuevo Producto
+        <hr>
+    </h2>
+
+    <form action="{{ url_for('formAddProducto') }}" method="POST" class="mb-3" autocomplete="off" enctype="multipart/form-data">
+        
+        <div class="row">
+            <div class="col">
+                <label for="tipoProducto">Tipo Producto</label>
+                <select name="tipoProducto" class="form-control" required>
+                    <option value="">--- Seleccione el Tipo de Producto ---</option>
+                    {% for tipoProducto in tipoProductos %}
+                        <option value="{{ tipoProducto['Tipo_Producto'] }}"> {{ tipoProducto['Tipo_Producto'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <label for="material">Material</label>
+                <select name="material" class="form-control" required>
+                    <option value="">--- Seleccione el Material ---</option>
+                    {% for material in materiales %}
+                        <option value="{{ material['Tipo_Material'] }}"> {{ material['Tipo_Material'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <label for="piedra">Piedra</label>
+                <select name="piedra" class="form-control" required>
+                    <option value="">--- Seleccione la Piedra ---</option>
+                    {% for piedra in piedras %}
+                        <option value="{{ piedra['Tipo_Piedra'] }}"> {{ piedra['Tipo_Piedra'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col">
+                <label for="precio">Precio</label>
+                <input type="number" name="precio" placeholder="Precio" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="stock">Stock</label>
+                <input type="number" name="stock" placeholder="Stock" class="form-control" required>
+            </div>
+        </div>
+
+
+
+
+        <!--
+        <div class="row mt-4">
+            <div class="col">
+                <label for="foto">Foto del Producto</label>
+                <input type="file" name="foto" class="form-control-file" accept="image/*" required>
+            </div>
+        </div>
+        -->
+        <hr>
+
+        <input class="button-primary mt-3 btn btn-info btn-block bold" type="submit" value="Guardar Registro">
+    </form>
+</section>
+
+{% endblock %}

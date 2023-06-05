@@ -1,0 +1,79 @@
+{% extends 'public/empleados.html' %}
+{% block title %}Registrar Empleado{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/empleados" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Registrar Nuevo Empleado
+        <hr>
+    </h2>
+
+    <form action="{{ url_for('formAddEmpleado') }}" method="POST" class="mb-3" autocomplete="off" enctype="multipart/form-data">
+        
+        <h1>Datos de Cuenta:</h1>
+
+        <div class="row">
+            <div class="col">
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="Username" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="password">Password</label>
+                <input type="text" name="password" placeholder="Password" class="form-control" required>
+            </div>
+        </div>
+
+        <h1>Datos de Empleado:</h1>
+
+        <div class="row">
+            <div class="col">
+                <label for="dniEmpleado">DNI Empleado</label>
+                <input type="number" name="dniEmpleado" placeholder="DNI Empleado" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="nombres">Nombres</label>
+                <input type="text" name="nombres" placeholder="Nombres" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="apellidoPaterno">Apellido Paterno</label>
+                <input type="text" name="apellidoPaterno" placeholder="Apellido Paterno" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="apellidoMaterno">Apellido Materno</label>
+                <input type="text" name="apellidoMaterno" placeholder="Apellido Materno" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                <input type="text" name="fechaNacimiento" placeholder="YYYY-MM-DD" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="telefono">Telefono de Contacto</label>
+                <input type="number" name="telefono" placeholder="Telefono de Contacto" class="form-control" required>
+            </div>
+        </div>
+
+
+        <!--
+        <div class="row mt-4">
+            <div class="col">
+                <label for="foto">Foto del Producto</label>
+                <input type="file" name="foto" class="form-control-file" accept="image/*" required>
+            </div>
+        </div>
+        -->
+        <hr>
+
+        <input class="button-primary mt-3 btn btn-info btn-block bold" type="submit" value="Guardar Registro">
+    </form>
+</section>
+
+{% endblock %}

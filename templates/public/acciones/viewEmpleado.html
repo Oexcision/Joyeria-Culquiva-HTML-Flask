@@ -1,0 +1,46 @@
+{% extends 'public/empleados.html' %}
+{% block title %}Registrar Empleado{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/empleados" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Detalles del Empleado
+        <hr>
+    </h2>
+
+    {% if (infoEmpleado) %}
+    
+    <!-- {{ infoProducto }} -->
+
+
+    <div class="card" style="width: 25rem;">
+
+        <div class="card-body">
+          <h5 class="card-title"> <strong>{{ infoEmpleado['_id'] }}</strong></h5>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">ID Cuenta Usuario: <strong>{{ infoEmpleado['Cuenta_Usuario'] }}</strong></li>
+          <li class="list-group-item">DNI Empleado: <strong>{{ infoEmpleado['DNI_Empleado'] }}</strong></li>
+          <li class="list-group-item">Nombres: <strong>{{ infoEmpleado['Nombres'] }}</strong></li>
+          <li class="list-group-item">Apellido Paterno: <strong>{{ infoEmpleado['ApellidoPaterno'] }}</strong></li>
+          <li class="list-group-item">Apellido Materno: <strong>{{ infoEmpleado['ApellidoMaterno']}}</strong></li>
+          <li class="list-group-item">Fecha Nacimiento: <strong>{{ infoEmpleado['Fecha_Nacimiento'] }}</strong></li>
+          <li class="list-group-item">Telefono: <strong>{{ infoEmpleado['Telefono_Contacto'] }}</strong></li>
+        </ul>
+      </div>
+
+      {% else %}
+      <div class="col-12">
+          <h2 class="text-center">
+              No existe el Empleado
+          </h2>
+      </div>
+      {% endif %}
+
+</section>
+
+{% endblock %}

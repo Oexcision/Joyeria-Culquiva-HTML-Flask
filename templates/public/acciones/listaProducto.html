@@ -1,0 +1,52 @@
+
+{% if (productos) %}
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Tipo Producto</th>
+                <th scope="col">Material</th>
+                <th scope="col">Piedra</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr id="Registro_{{ producto['_id'] }}">
+                <th scope="row">{{ producto['_id'] }}</th>
+                <td>{{ producto['Tipo_Producto'] }}</td>
+                <td>{{ producto['Material'] }}</td>
+                <td>{{ producto['Piedra'] }}</td>
+                <td>{{ producto['Precio'] }}</td>
+                <td>{{ producto['Stock'] }}</td>
+
+                <td width="300">
+                    <span style="display: flex; justify-content:space-between;">
+                        <a href="{{ url_for('viewDetalleProducto', idProducto= producto['_id'] ) }}" type="button"
+                            class="btn btn-warning btn-sm" tooltip="Ver Registro">
+                            <i class="bi bi-eye"></i>
+                            Ver
+                        </a>
+                        <a href="{{ url_for('formViewUpdateProducto', id = producto['_id'] ) }}" class="btn btn-info btn-sm"
+                            tooltip="Actualizar Registro">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Actualizar
+                        </a>
+                        <!---->
+                    </span>
+                </td>
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h3 class="text-center">No hay Productos</h3>
+    </div>
+</div>
+{% endif %}

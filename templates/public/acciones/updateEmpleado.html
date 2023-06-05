@@ -1,0 +1,71 @@
+{% extends 'public/empleados.html' %}
+{% block title %}Registrar Empleado{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/empleados" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Actualizar Información del Empleado
+        <hr>
+    </h2>
+
+    {% if (dataInfo) %}
+      <form action="{{ url_for('formActualizarEmpleado', idEmpleado = dataInfo['_id'] ) }}" method="POST" class="mb-3" autocomplete="off" enctype="multipart/form-data">
+        <input type="text" class="form-control" name="id" value="{{ dataInfo['_id'] }}" required hidden>
+        
+
+
+        <h1>Datos de Empleado:</h1>
+
+        <div class="row">
+            <div class="col">
+                <label for="dniEmpleado">DNI Empleado</label>
+                <input type="number" name="dniEmpleado" value="{{ dataInfo['DNI_Empleado'] }}" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="nombres">Nombres</label>
+                <input type="text" name="nombres" value="{{ dataInfo['Nombres'] }}" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="apellidoPaterno">Apellido Paterno</label>
+                <input type="text" name="apellidoPaterno" value="{{ dataInfo['ApellidoPaterno'] }}" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="apellidoMaterno">Apellido Materno</label>
+                <input type="text" name="apellidoMaterno" value="{{ dataInfo['ApellidoMaterno'] }}" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                <input type="text" name="fechaNacimiento" value="{{ dataInfo['Fecha_Nacimiento'] }}" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="telefono">Telefono de Contacto</label>
+                <input type="number" name="telefono" value="{{ dataInfo['Telefono_Contacto'] }}" class="form-control" required>
+            </div>
+        </div>
+
+
+
+        <hr>
+        <input class="button-primary mt-3 btn btn-info btn-block bold" type="submit" value="Guardar Actualización">
+    </form>
+
+    {% else %}
+      <div class="col-12">
+          <h2 class="text-center">
+              No existe el Empleado
+          </h2>
+      </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}

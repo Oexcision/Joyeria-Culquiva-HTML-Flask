@@ -1,0 +1,44 @@
+{% extends 'public/productos.html' %}
+{% block title %}Registrar Producto{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/productos" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Detalles del Producto
+        <hr>
+    </h2>
+
+    {% if (infoProducto) %}
+    
+    <!-- {{ infoProducto }} -->
+
+
+    <div class="card" style="width: 25rem;">
+
+        <div class="card-body">
+          <h5 class="card-title"> <strong>{{ infoProducto['_id'] }}</strong></h5>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Tipo Producto: <strong>{{ infoProducto['Tipo_Producto'] }}</strong></li>
+          <li class="list-group-item">Material: <strong>{{ infoProducto['Material'] }}</strong></li>
+          <li class="list-group-item">Piedra: <strong>{{ infoProducto['Piedra'] }}</strong></li>
+          <li class="list-group-item">Precio: <strong>{{ infoProducto['Precio'] }}</strong></li>
+          <li class="list-group-item">Stock: <strong>{{ infoProducto['Stock']}}</strong></li>
+        </ul>
+      </div>
+
+      {% else %}
+      <div class="col-12">
+          <h2 class="text-center">
+              No existe el Producto
+          </h2>
+      </div>
+      {% endif %}
+
+</section>
+
+{% endblock %}

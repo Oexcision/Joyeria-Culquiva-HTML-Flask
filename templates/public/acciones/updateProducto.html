@@ -1,0 +1,100 @@
+{% extends 'public/productos.html' %}
+{% block title %}Registrar Producto{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/productos" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Actualizar Información del Producto
+        <hr>
+    </h2>
+
+    {% if (dataInfo) %}
+      <form action="{{ url_for('formActualizarProducto', idProducto = dataInfo['_id'] ) }}" method="POST" class="mb-3" autocomplete="off" enctype="multipart/form-data">
+        <input type="text" class="form-control" name="id" value="{{ dataInfo['_id'] }}" required hidden>
+        
+        <div class="row">
+
+            <div class="col">
+                <label for="tipoProducto">Tipo Producto</label>
+                {% with  tipoProductos = ["Anillo","Collar","Pulsera","Aretes"] %}
+                <select name="tipoProducto" class="form-control">
+                    {% for tipoProducto in tipoProductos %}
+                        {% if(tipoProducto == dataInfo['Tipo_Producto']) %}
+                            <option value="{{ tipoProducto }}" selected>{{ tipoProducto }}</option>
+                        {% else %}
+                            <option value="{{ tipoProducto }}">{{ tipoProducto }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                {% endwith %}
+            </div>
+
+            <div class="col">
+                <label for="material">Material</label>
+                {% with  materiales = ["Oro","Plata"] %}
+                <select name="material" class="form-control">
+                    {% for material in materiales %}
+                        {% if(material == dataInfo['Material']) %}
+                            <option value="{{ material }}" selected>{{ material }}</option>
+                        {% else %}
+                            <option value="{{ material }}">{{ material }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                {% endwith %}
+            </div>
+
+            <div class="col">
+                <label for="piedra">Piedra</label>
+                {% with  piedras = ["Ninguna","Diamante","Esmeralda","Perlas","Rubí","Fantasía","Amatista"] %}
+                <select name="piedra" class="form-control">
+                    {% for piedra in piedras %}
+                        {% if(piedra == dataInfo['Piedra']) %}
+                            <option value="{{ piedra }}" selected>{{ piedra }}</option>
+                        {% else %}
+                            <option value="{{ piedra }}">{{ piedra }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                {% endwith %}
+            </div>
+
+        </div>
+
+
+
+
+        <div class="row">
+
+            <div class="col">
+                <label for="precio">Precio</label>
+                <input type="number" name="precio" value="{{ dataInfo['Precio'] }}" class="form-control">
+            </div>
+
+            <div class="col">
+                <label for="stock">Stock</label>
+                <input type="number" name="stock" value="{{ dataInfo['Stock'] }}" class="form-control">
+            </div>
+
+        </div>
+
+
+
+        <hr>
+        <input class="button-primary mt-3 btn btn-info btn-block bold" type="submit" value="Guardar Actualización">
+    </form>
+
+    {% else %}
+      <div class="col-12">
+          <h2 class="text-center">
+              No existe el Producto
+          </h2>
+      </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}
