@@ -1,0 +1,46 @@
+{% extends 'public/clientes.html' %}
+{% block title %}Registrar Cliente{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/clientes" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Detalles del Cliente
+        <hr>
+    </h2>
+
+    {% if (infoCliente) %}
+    
+    <!-- {{ infoCliente }} -->
+
+
+    <div class="card" style="width: 25rem;">
+
+        <div class="card-body">
+          <h5 class="card-title"> <strong>{{ infoCliente['_id'] }}</strong></h5>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">DNI Cliente: <strong>{{ infoCliente['DNI_Cliente'] }}</strong></li>
+          <li class="list-group-item">Nombres: <strong>{{ infoCliente['Nombres'] }}</strong></li>
+          <li class="list-group-item">Apellido Paterno: <strong>{{ infoCliente['ApellidoPaterno'] }}</strong></li>
+          <li class="list-group-item">Apellido Materno: <strong>{{ infoCliente['ApellidoMaterno']}}</strong></li>
+          <li class="list-group-item">Correo: <strong>{{ infoCliente['Correo_Electronico'] }}</strong></li>
+          <li class="list-group-item">Telefono: <strong>{{ infoCliente['Telefono_Contacto'] }}</strong></li>
+          <li class="list-group-item">Fecha Nacimiento: <strong>{{ infoCliente['Fecha_Nacimiento'] }}</strong></li>
+        </ul>
+      </div>
+
+      {% else %}
+      <div class="col-12">
+          <h2 class="text-center">
+              No existe el Cliente
+          </h2>
+      </div>
+      {% endif %}
+
+</section>
+
+{% endblock %}

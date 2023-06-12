@@ -96,3 +96,45 @@ h2{
     color: #333;
 }
 
+#navbarNav{
+    font-weight:bold;
+    font-size: x-large;
+    
+}
+
+.nav-item:hover{
+    transform: scale(1.2);
+}
+
+.nav-link{
+    border: solid 3px white;
+    border-radius: 10px;
+    margin: 10px;
+    color: white;
+
+}
+
+.button-one{
+    border:solid 3px red;
+    font-size: 55px;
+    margin: 15px;
+}
+
+.button-two{
+    border:solid 3px blue;
+    font-size: 55px;
+    margin: 15px;
+}
+
+.col-button-one{
+    text-align: center;
+    margin: 15px;
+}
+.col-button-two{
+    text-align: center;
+}
+
+img.metafora{
+    width: 80px;
+    height: 80px;
+}

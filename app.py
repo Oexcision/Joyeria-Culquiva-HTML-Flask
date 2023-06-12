@@ -17,7 +17,8 @@ tipo =''
 @app.route('/')
 def home():
     if 'username' in session:
-        return render_template('public/home.html', username=session['username'])
+        nombre= list(e for e in listaCuentaUsuarios()  if e['Username']  == session['username'])[0] 
+        return render_template('public/home.html', name=nombre)
     else:
         return redirect('/login')
 
@@ -175,6 +176,34 @@ def  formActualizarProducto(idProducto):
         else:
             msg ='No se actualizo el registro'
             return render_template('public/productos.html', productos = listaProductos(), msg = 'No se pudo actualizar', tipo=1) 
+
+#Eliminar producto
+@app.route('/borrar-producto', methods=['GET', 'POST'])
+def formViewBorrarProducto():
+    if request.method == 'POST':
+        idProducto        = request.form['id']
+        resultData      = eliminarProducto(idProducto)
+
+        if resultData ==1:
+            #Nota: retorno solo un json y no una vista para evitar refescar la vista
+            return jsonify([1])
+            #return jsonify(["respuesta", 1])
+        else: 
+            return jsonify([0])
+
+
+def eliminarProducto(idProducto):
+    print(idProducto)
+    producto_eliminado=coleccionProductos.delete_one({'_id': int(idProducto)})
+    resultado_eliminar=producto_eliminado.deleted_count
+    print(resultado_eliminar)
+    return resultado_eliminar
+
+
+
+
+
+
 #####################################################################################################################################################################
 
 
@@ -256,10 +285,104 @@ def  formActualizarEmpleado(idEmpleado):
         else:
             msg ='No se actualizo el registro'
             return render_template('public/empleados.html', empleados = listaEmpleados(), msg = 'No se pudo actualizar', tipo=1)
+
+#Eliminar empleado
+@app.route('/borrar-empleado', methods=['GET', 'POST'])
+def formViewBorrarEmpleado():
+    if request.method == 'POST':
+        idEmpleado       = request.form['id']
+        resultData      = eliminarEmpleado(idEmpleado)
+
+        if resultData ==1:
+            #Nota: retorno solo un json y no una vista para evitar refescar la vista
+            return jsonify([1])
+            #return jsonify(["respuesta", 1])
+        else: 
+            return jsonify([0])
+
+
+def eliminarEmpleado(idEmpleado):
+    print(idEmpleado)
+    empleado_eliminado=coleccionEmpleados.delete_one({'_id': int(idEmpleado)})
+    resultado_eliminar=empleado_eliminado.deleted_count
+    print(resultado_eliminar)
+    return resultado_eliminar
 ####################################################################################################################################################################
 
+#CLIENTES
+####################################################################################################################################################################
+
+@app.route('/clientes')
+def clientes():
+    return render_template('public/clientes.html', clientes = listaClientes())
+
+@app.route('/form-update-cliente/<string:id>', methods=['GET','POST'])
+def formViewUpdateCliente(id):
+    if request.method == 'GET':
+        resultData = updateCliente(id)
+        if resultData:
+            return render_template('public/acciones/updateCliente.html',  dataInfo = resultData)
+        else:
+            return render_template('public/clientes.html', clientes = listaClients(), msg='No existe el empleado', tipo= 1)
+    else:
+        return render_template('public/clientes.html', clientes = listaClientes(), msg = 'Metodo HTTP incorrecto', tipo=1)      
+
+@app.route('/ver-detalles-del-cliente/<int:idCliente>', methods=['GET', 'POST'])
+def viewDetalleCliente(idCliente):
+    msg =''
+    if request.method == 'GET':
+        resultData = detallesCliente(idCliente) #Funcion que almacena los detalles del producto
+        
+        if resultData:
+            return render_template('public/acciones/viewCliente.html', infoCliente = resultData, msg='Detalles del Cliente', tipo=1)
+        else:
+            return render_template('public/acciones/clientes.html', msg='No existe el Cliente', tipo=1)
+    return redirect(url_for('inicio'))
+
+@app.route('/actualizar-cliente/<string:idCliente>', methods=['POST'])
+def  formActualizarCliente(idCliente):
+    if request.method == 'POST':
+        dniCliente      = request.form['dniCliente']
+        nombres          = request.form['nombres']
+        apellidoPaterno  = request.form['apellidoPaterno']
+        apellidoMaterno  = request.form['apellidoMaterno']
+        correo           = request.form['correo']
+        telefono         = request.form['telefono']
+        fechaNacimiento  = request.form['fechaNacimiento']
+        
+
+        
+        #Script para recibir el archivo (foto)
+        resultData = recibeActualizarCliente(int(idCliente),int(dniCliente), nombres, apellidoPaterno, apellidoMaterno, correo,int(telefono),fechaNacimiento)
+        if(resultData ==1):
+            return render_template('public/clientes.html', clientes = listaClientes(), msg='Datos del cliente actualizados', tipo=1)
+        else:
+            msg ='No se actualizo el registro'
+            return render_template('public/clientes.html', clientes = listaClientes(), msg = 'No se pudo actualizar', tipo=1)
 
 
+#Eliminar cliente
+@app.route('/borrar-cliente', methods=['GET', 'POST'])
+def formViewBorrarCliente():
+    if request.method == 'POST':
+        idCliente       = request.form['id']
+        resultData      = eliminarCliente(idCliente)
+
+        if resultData ==1:
+            #Nota: retorno solo un json y no una vista para evitar refescar la vista
+            return jsonify([1])
+            #return jsonify(["respuesta", 1])
+        else: 
+            return jsonify([0])
+
+
+def eliminarCliente(idCliente):
+    print(idCliente)
+    cliente_eliminado=coleccionClientes.delete_one({'_id': int(idCliente)})
+    resultado_eliminar=cliente_eliminado.deleted_count
+    print(resultado_eliminar)
+    return resultado_eliminar
+####################################################################################################################################################################
 @app.errorhandler(404)
 def not_found(error):
     return redirect(url_for('productos'))

@@ -1,50 +1,49 @@
 
-{% if (empleados) %}
+{% if (clientes) %}
 <div class="table-responsive">
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th scope="col">#ID</th>
-                <th scope="col">ID Cuenta de Usuario</th>
                 <th scope="col">DNI</th>
                 <th scope="col">Nombres</th>
                 <th scope="col">Apellido Paterno</th>
                 <th scope="col">Apellido Materno</th>
-                <th scope="col">Fecha Nacimiento</th>
+                <th scope="col">Correo</th>
                 <th scope="col">Telefono</th>
+                <th scope="col">Fecha de Nacimiento</th>
             </tr>
         </thead>
         <tbody>
-            {% for empleado in empleados %}
-            <tr id="Registro_{{ empleado['_id'] }}">
-                <th scope="row">{{ empleado['_id'] }}</th>
-                <td>{{ empleado['Cuenta_Usuario'] }}</td>
-                <td>{{ empleado['DNI_Empleado'] }}</td>
-                <td>{{ empleado['Nombres'] }}</td>
-                <td>{{ empleado['ApellidoPaterno'] }}</td>
-                <td>{{ empleado['ApellidoMaterno'] }}</td>
-                <td>{{ empleado['Fecha_Nacimiento'] }}</td>
-                <td>{{ empleado['Telefono_Contacto'] }}</td>
+            {% for cliente in clientes %}
+            <tr id="Registro_{{ cliente['_id'] }}">
+                <th scope="row">{{ cliente['_id'] }}</th>
+                <td>{{ cliente['DNI_Cliente'] }}</td>
+                <td>{{ cliente['Nombres'] }}</td>
+                <td>{{ cliente['ApellidoPaterno'] }}</td>
+                <td>{{ cliente['ApellidoMaterno'] }}</td>
+                <td>{{ cliente['Correo_Electronico'] }}</td>
+                <td>{{ cliente['Telefono_Contacto'] }}</td>
+                <td>{{ cliente['Fecha_Nacimiento'] }}</td>
                 
 
                 <td width="300">
                     <span style="display: flex; justify-content:space-between;">
-                        <a href="{{ url_for('viewDetalleEmpleado', idEmpleado= empleado['_id'] ) }}" type="button"
+                        <a href="{{ url_for('viewDetalleCliente', idCliente= cliente['_id'] ) }}" type="button"
                             class="btn btn-warning btn-sm" tooltip="Ver Registro">
                             <i class="bi bi-eye"></i>
                             Ver Detall
                         </a>
-                        <a href="{{ url_for('formViewUpdateEmpleado', id = empleado['_id'] ) }}" class="btn btn-info btn-sm"
+                        <a href="{{ url_for('formViewUpdateCliente', id = cliente['_id'] ) }}" class="btn btn-info btn-sm"
                             tooltip="Actualizar Registro">
                             <i class="bi bi-arrow-clockwise"></i>
                             Actualizar
                         </a>
-                        <a href="#" id="id_{{ empleado['_id'] }}" onclick="eliminarEmpleadoJavaScript('{{ empleado._id }}');" class="btn btn-danger btn-sm"
+                        <a href="#" id="id_{{ cliente['_id'] }}" onclick="eliminarClienteJavaScript('{{ cliente._id }}');" class="btn btn-danger btn-sm"
                             tooltip="Eliminar Registro">
                             <i class="bi bi-trash3"></i>
                             Eliminar
                         </a>
-                       
                     </span>
                 </td>
             </tr>
@@ -56,7 +55,7 @@
 {% else %}
 <div class="row mb-5">
     <div class="col-md-12">
-        <h3 class="text-center">No hay Empleados</h3>
+        <h3 class="text-center">No hay Clientes</h3>
     </div>
 </div>
 {% endif %}

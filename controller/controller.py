@@ -170,8 +170,24 @@ def listaPiedras():
 #CLIENTES
 ####################################################################################################################################################################
 
+def listaClientes():
+  clientes = coleccionClientes.find()
+  return clientes
 
+def updateCliente(id=''):
+  #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  clienteEncontrado = list(e for e in listaClientes() if e['_id']  == int(id))[0] 
+  return clienteEncontrado
 
+def detallesCliente(idCliente):
+  #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  clienteEncontrado = list(e for e in listaClientes() if e['_id']  == idCliente)[0] 
+  return clienteEncontrado
+
+def recibeActualizarCliente(idCliente, dniCliente, nombres, apellidoPaterno, apellidoMaterno, correo,telefono, fechaNacimiento):
+    resultado_insert=coleccionClientes.update_one({"_id":idCliente},{"$set":{"DNI_Cliente":dniCliente,"Nombres":nombres,
+                                        "ApellidoPaterno":apellidoPaterno,"ApellidoMaterno":apellidoMaterno,"Correo_Electronico":correo, "Telefono_Contacto":telefono, "Fecha_Nacimiento":fechaNacimiento}})
+    return resultado_insert.modified_count
 ####################################################################################################################################################################
 
 
@@ -249,7 +265,34 @@ def listaVentas():
 ####################################################################################################################################################################
 
 
+#CUENTA USUARIO
+####################################################################################################################################################################
+def listaCuentaUsuarios():
+    cuentaUsuarios = coleccionCuentaUsuario.aggregate([
+  {
+    "$lookup": {
+      "from": "Empleados",
+      "localField": "_id",
+      "foreignField": "_id",
+      "as": "empleado"
+    }
+  },
 
+  {
+    "$project": {
+      "_id": 1,
+      "Nombres": { "$arrayElemAt": ["$empleado.Nombres", 0] },
+      "ApellidoPaterno": { "$arrayElemAt": ["$empleado.ApellidoPaterno", 0] },
+      "ApellidoMaterno": { "$arrayElemAt": ["$empleado.ApellidoMaterno", 0] },
+      "Username": 1,
+      "Password": 1,
+      "ID_TipoCuentaUsuario": 1
+
+    }
+  }
+])
+    return cuentaUsuarios
+####################################################################################################################################################################
 
 
 

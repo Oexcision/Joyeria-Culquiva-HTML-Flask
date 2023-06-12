@@ -4,6 +4,20 @@
 
 {% block body %}
 
-<h1>Bienvenido {{ username }}</h1>
-<!--<a href="/logout">Cerrar sesión</a>-->
+<h1>Bienvenido: "{{ name['Nombres'] }} {{ name['ApellidoPaterno'] }} {{name['ApellidoMaterno'] }}"</h1>
+<div>
+    <div class="col-button-one">
+        <button class="button-one"><img class="metafora" src="static/assets/imgs/sale.png">VENTAS</button>
+        <button class="button-one"><img class="metafora" src="static/assets/imgs/empeño.png">EMPEÑOS</button>
+    </div>
+    <div  class="col-button-two">
+        <button class="button-two"><img class="metafora" src="static/assets/imgs/cliente.png">CLIENTES</button>
+        <button class="button-two"><img class="metafora" src="static/assets/imgs/producto.png">PRODUCTOS</button>
+        <button class="button-two"><img class="metafora" src="static/assets/imgs/sale.png">EMPLEADOS</button>
+    </div>
+
+</div>
+
+
+
 {% endblock %}
