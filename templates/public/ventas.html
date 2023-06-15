@@ -1,0 +1,32 @@
+{% extends 'public/base.html' %}
+
+{% block title%} Ventas {% endblock %}
+
+
+{% block body %}
+
+<div class="container text-center">
+    <div class="row mb-3">
+        <div class="col-md-12">
+          <h1 class="mt-4 bold-800">Ventas
+            
+            <hr>
+          </h1>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <a href="#" title="Registrar nueva Venta"
+          class="btn btn-primary btn-lg btn-block btn-sm mb-2" style="float:right">
+          <i class="bi bi-plus-circle"></i>
+          Nuevo Registro
+        </a>
+      </div>
+    </div>
+
+
+{% include 'public/acciones/listaVenta.html' %}
+
+
+{% endblock %}
+</div>

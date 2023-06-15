@@ -7,13 +7,28 @@
 <h1>Bienvenido: "{{ name['Nombres'] }} {{ name['ApellidoPaterno'] }} {{name['ApellidoMaterno'] }}"</h1>
 <div>
     <div class="col-button-one">
-        <button class="button-one"><img class="metafora" src="static/assets/imgs/sale.png">VENTAS</button>
-        <button class="button-one"><img class="metafora" src="static/assets/imgs/empeño.png">EMPEÑOS</button>
+        <a href="{{ url_for('ventas') }}">
+            <button class="button-one"><img class="metafora" src="static/assets/imgs/sale.png">VENTAS</button>
+        </a>
+
+        <a href="#">
+            <button class="button-one"><img class="metafora" src="static/assets/imgs/empeño.png">EMPEÑOS</button>
+        </a>
     </div>
+
     <div  class="col-button-two">
-        <button class="button-two"><img class="metafora" src="static/assets/imgs/cliente.png">CLIENTES</button>
-        <button class="button-two"><img class="metafora" src="static/assets/imgs/producto.png">PRODUCTOS</button>
-        <button class="button-two"><img class="metafora" src="static/assets/imgs/sale.png">EMPLEADOS</button>
+        
+        <a href="{{ url_for('clientes') }}">
+            <button class="button-two"> <img class="metafora" src="static/assets/imgs/cliente.png">CLIENTES</button>
+        </a>
+
+        <a href="{{ url_for('productos') }}">
+            <button class="button-two"><img class="metafora" src="static/assets/imgs/producto.png">PRODUCTOS</button>
+        </a>
+
+        <a href="{{ url_for('empleados') }}">
+            <button class="button-two"><img class="metafora" src="static/assets/imgs/sale.png">EMPLEADOS</button>
+        </a>
     </div>
 
 </div>

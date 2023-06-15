@@ -238,7 +238,7 @@ def listaVentas():
       "Producto": { "$arrayElemAt": ["$producto._id", 0] },
       "Cantidad": 1,
       "Total": 1,
-      "MetodoPago": { "$arrayElemAt": ["$metodo_pago.Metodo_Pago", 0] },
+      
       "Fecha_Venta": 1
     }
   }
