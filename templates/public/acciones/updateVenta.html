@@ -1,0 +1,76 @@
+{% extends 'public/ventas.html' %}
+{% block title %}Registrar Venta{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/ventas" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Actualizar Información de la Venta
+        <hr>
+    </h2>
+
+    {% if (dataInfo) %}
+      <form action="{{ url_for('formActualizarVenta', idVenta = dataInfo['_id'] ) }}" method="POST" class="mb-3" autocomplete="off" enctype="multipart/form-data">
+        <input type="text" class="form-control" name="id" value="{{ dataInfo['_id'] }}" required hidden>
+        
+
+
+        <h1>Datos de Venta:</h1>
+
+        <div class="row">
+            <div class="col">
+                <label for="dniCliente">DNI Cliente</label>
+                <input type="number" name="dniCliente" value="{{ dataInfo['Cliente'] }}" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <label for="empleado">ID Empleado</label>
+                <input type="number" name="empleado" value="{{ dataInfo['Empleado'] }}" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <label for="fechaVenta">Fecha de Venta</label>
+                <input type="text" name="fechaVenta" value="{{ dataInfo['Fecha_Venta'] }}" class="form-control" readonly>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+
+            <div class="col">
+                <label for="producto">ID Producto</label>
+                <input type="number" name="producto" value="{{ dataInfo['Producto'] }}" class="form-control" required>
+            </div>
+
+            <div class="col">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" name="cantidad" value="{{ dataInfo['Cantidad'] }}" class="form-control" required>
+            </div>
+            
+            <div class="col">
+                <label for="total">Total</label>
+                <input type="number" name="total" value="{{ dataInfo['Total'] }}" class="form-control" readonly>
+            </div>
+        </div>
+
+
+
+
+
+
+        <hr>
+        <input class="button-primary mt-3 btn btn-info btn-block bold" type="submit" value="Guardar Actualización">
+    </form>
+
+    {% else %}
+      <div class="col-12">
+          <h2 class="text-center">
+              No existe el Cliente
+          </h2>
+      </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}

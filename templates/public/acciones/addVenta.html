@@ -1,0 +1,91 @@
+{% extends 'public/ventas.html' %}
+{% block title %}Registrar Venta{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/ventas" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Registrar Nueva Venta
+        <hr>
+    </h2>
+
+    <form action="{{ url_for('formAddVenta') }}" method="POST" class="mb-3" autocomplete="off" enctype="multipart/form-data">
+        
+        <h2>Datos de Cliente</h2>
+
+        <div class="row">
+            <div class="col">
+                <label for="dniCliente">DNI_Cliente</label>
+                <input type="number" id="dniCliente" name="dniCliente" placeholder="DNI Cliente" class="form-control" required>
+                <button type="button" id="btnConsultarCliente" class="btn btn-primary my-2 my-sm-0">Buscar Cliente</button>
+            </div>
+        </div>
+
+        <div id="mensajeCliente" style="display: none;"></div>
+
+        <div id="formularioCliente" style="display: none;">
+
+            <div class="row">
+                <div class="col">
+                    <label for="nombres">Nombres:</label>
+                    <input type="text" name="nombres" placeholder="Nombres" class="form-control">
+                </div>
+
+                <div class="col">
+                    <label for="apellidoPaterno">Apellido Paterno:</label>
+                    <input type="text" name="apellidoPaterno" placeholder="Apellido Paterno" class="form-control" >
+                </div>
+
+                <div class="col">
+                    <label for="apellidoMaterno">Apellido Materno:</label>
+                    <input type="text" name="apellidoMaterno" placeholder="Apellido Materno" class="form-control" >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="correo">Correo:</label>
+                    <input type="text" name="correo" placeholder="Correo" class="form-control" >
+                </div>
+
+                <div class="col">
+                    <label for="telefono">Telefono de Contacto:</label>
+                    <input type="number" name="telefono" placeholder="Telefono de Contacto" class="form-control" >
+                </div>
+                <div class="col">
+                    <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                    <input type="text" name="fechaNacimiento" placeholder="YYYY-MM-DD" class="form-control">
+                </div>
+            </div>
+
+        </div>
+        
+
+
+
+
+        <h2>Datos de Producto</h2>
+        <div class="row">
+            <div class="col">
+                <label for="idProducto">ID Producto: </label>
+                <input type="number" name="idProducto" placeholder="ID Producto" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" placeholder="Cantidad" class="form-control" required>
+            </div>
+        </div>
+
+
+
+
+
+        <hr>
+
+        <input class="button-primary mt-3 btn btn-info btn-block bold" type="submit" value="Guardar Registro">
+    </form>
+</section>
+
+{% endblock %}

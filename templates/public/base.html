@@ -123,6 +123,68 @@
   }  
 </script>
 
+<script>
+  function eliminarVentaJavaScript(id) {
+    //obj = JSON.parse(producto);
+    //alert(obj._id);
+    //id=obj._id;
+    const idR = document.querySelector('#id_'+ id);
+
+    let li = document.querySelector('#Registro_' + id);
+
+    var urlForm = "{{ url_for('formViewBorrarVenta') }}";
+    $.ajax({
+      type: "POST",
+      data: { id },
+      url: urlForm,
+      success: function (resp) {
+        console.log(resp)
+        if (resp == 1) {
+          li.remove(); //remuevo el registro desde la lista
+          mensajeAlerta(msg='Registro Eliminado con éxito.', tipo=1); 
+        } else {
+          console.log('Error al intentar borrar el empleado ');
+        }
+      }
+    });
+
+  }  
+</script>
+<script>
+    document.getElementById("btnConsultarCliente").addEventListener("click", function() {
+    var dniCliente = document.getElementById("dniCliente").value;
+    var mensaje = document.getElementById("mensajeCliente");
+    // Realizar la consulta a MongoDB
+    fetch("/consultar_cliente", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ dniCliente: dniCliente })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.existe) {
+        // Si el documento existe, ocultar el formulario
+        document.getElementById("formularioCliente").style.display = "none";
+        mensaje.textContent = "¡Cliente encontrado!";
+        mensaje.style.display = "block";
+        existe=data.existe;
+        id_Cliente=data.ID_Cliente;
+        console.log(existe)
+        console.log(id_Cliente)
+      } else {
+        // Si el documento no existe, mostrar el formulario
+        document.getElementById("formularioCliente").style.display = "block";
+        mensaje.textContent = "Usuario no encontrado";
+        mensaje.style.display = "block";
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  });
+</script>
 </body>
 
 </html>

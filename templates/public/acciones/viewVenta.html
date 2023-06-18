@@ -1,0 +1,45 @@
+{% extends 'public/ventas.html' %}
+{% block title %}Registrar Venta{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/ventas" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Detalles del Venta
+        <hr>
+    </h2>
+
+    {% if (infoVenta) %}
+    
+    <!-- {{ infoVenta }} -->
+
+
+    <div class="card" style="width: 25rem;">
+
+        <div class="card-body">
+          <h5 class="card-title"> <strong>{{ infoVenta['_id'] }}</strong></h5>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">DNI Cliente: <strong>{{ infoVenta['Cliente'] }}</strong></li>
+          <li class="list-group-item">ID Empleado: <strong>{{ infoVenta['Empleado'] }}</strong></li>
+          <li class="list-group-item">ID Producto: <strong>{{ infoVenta['Producto'] }}</strong></li>
+          <li class="list-group-item">Cantidad: <strong>{{ infoVenta['Cantidad']}}</strong></li>
+          <li class="list-group-item">Total: <strong>{{ infoVenta['Total'] }}</strong></li>
+          <li class="list-group-item">Fecha Venta: <strong>{{ infoVenta['Fecha_Venta'] }}</strong></li>
+        </ul>
+      </div>
+
+      {% else %}
+      <div class="col-12">
+          <h2 class="text-center">
+              No existe la Venta
+          </h2>
+      </div>
+      {% endif %}
+
+</section>
+
+{% endblock %}

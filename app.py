@@ -323,7 +323,7 @@ def formViewUpdateCliente(id):
         if resultData:
             return render_template('public/acciones/updateCliente.html',  dataInfo = resultData)
         else:
-            return render_template('public/clientes.html', clientes = listaClients(), msg='No existe el empleado', tipo= 1)
+            return render_template('public/clientes.html', clientes = listaClientes(), msg='No existe el cliente', tipo= 1)
     else:
         return render_template('public/clientes.html', clientes = listaClientes(), msg = 'Metodo HTTP incorrecto', tipo=1)      
 
@@ -386,14 +386,142 @@ def eliminarCliente(idCliente):
 
 #VENTAS 
 ####################################################################################################################################################################
+existe=None
+@app.route("/consultar_cliente", methods=["POST"])
+def consultar_cliente():
+    global existe
+    dniCliente = request.json["dniCliente"]
+    print(dniCliente)
+    # Realizar la consulta en MongoDB
+    documento = coleccionClientes.find_one({"DNI_Cliente": int(dniCliente)})
+    print(documento)
+    existe = documento is not None
+    if existe:
+      return jsonify({"existe": existe,"ID_Cliente": documento['_id']})
+    else:
+      return jsonify({"existe": existe})
+    # Enviar la respuesta al cliente
+    
 @app.route('/ventas')
 def ventas():
     return render_template('public/ventas.html', ventas = listaVentas())
 
+@app.route('/registrar-venta', methods=['GET','POST'])
+def addVenta():
+    return render_template('public/acciones/addVenta.html',ventas=listaVentas(),clientes=listaClientes())
 
+
+#Registrando nuevo Venta
+@app.route('/venta', methods=['POST'])
+def formAddVenta():
+    if request.method == 'POST':
+
+        dniCliente          = request.form['dniCliente']
+        nombres             = request.form['nombres']
+        apellidoPaterno     = request.form['apellidoPaterno']
+        apellidoMaterno     = request.form['apellidoMaterno']
+        correo              = request.form['correo']
+        telefono            = request.form['telefono']
+        fechaNacimiento     = request.form['fechaNacimiento']
+        idProducto          = request.form['idProducto']
+        cantidad            = request.form['cantidad']
+        print(existe)
+        print(session['username'])
+        if existe==True:
+            resultData = registrarVentaClienteRegistrado(int(dniCliente), int(idProducto), int(cantidad), session['username'])
+            if(resultData ==1):
+                return render_template('public/ventas.html', ventas = listaVentas(), msg='El Registro fue un éxito', tipo=1)
+            else:
+                return render_template('public/ventas.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+           
+        else:
+            resultData = registrarVentaClienteSinRegistrar(int(dniCliente),nombres,apellidoPaterno,apellidoMaterno,correo,int(telefono),fechaNacimiento, int(idProducto), int(cantidad), session['username'])
+            if(resultData ==1):
+                return render_template('public/ventas.html', ventas = listaVentas(), msg='El Registro fue un éxito', tipo=1)
+            else:
+                return render_template('public/ventas.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+        
+
+
+
+
+
+
+@app.route('/form-update-venta/<string:id>', methods=['GET','POST'])
+def formViewUpdateVenta(id):
+    if request.method == 'GET':
+        resultData = updateVenta(id)
+        if resultData:
+            return render_template('public/acciones/updateVenta.html',  dataInfo = resultData)
+        else:
+            return render_template('public/ventas.html', ventas = listaVentas(), msg='No existe la Venta', tipo= 1)
+    else:
+        return render_template('public/ventas.html', ventas = listaVentas(), msg = 'Metodo HTTP incorrecto', tipo=1)      
+
+@app.route('/ver-detalles-del-venta/<int:idVenta>', methods=['GET', 'POST'])
+def viewDetalleVenta(idVenta):
+    msg =''
+    if request.method == 'GET':
+        resultData = detallesVenta(idVenta) #Funcion que almacena los detalles del venta
+        
+        if resultData:
+            return render_template('public/acciones/viewVenta.html', infoVenta = resultData, msg='Detalles del Venta', tipo=1)
+        else:
+            return render_template('public/acciones/ventas.html', msg='No existe la Venta', tipo=1)
+    return redirect(url_for('inicio'))
+
+@app.route('/actualizar-venta/<string:idVenta>', methods=['POST'])
+def  formActualizarVenta(idVenta):
+    if request.method == 'POST':
+        dniCliente  = request.form['dniCliente']
+        empleado    = request.form['empleado']
+        producto    = request.form['producto']
+        cantidad    = request.form['cantidad']
+        total       = request.form['total']
+        fechaVenta  = request.form['fechaVenta']
+        
+
+        fechaVenta=datetime.now()
+        #Script para recibir el archivo (foto)
+        resultData = recibeActualizarVenta(int(idVenta),int(dniCliente),int(empleado), int(producto), int(cantidad), int(total), fechaVenta)
+        if(resultData ==1):
+            return render_template('public/ventas.html', ventas = listaVentas(), msg='Datos de la Venta actualizados', tipo=1)
+        else:
+            msg ='No se actualizo el registro'
+            return render_template('public/ventas.html', ventas = listaVentas(), msg = 'No se pudo actualizar', tipo=1)
+
+
+#Eliminar venta
+@app.route('/borrar-venta', methods=['GET', 'POST'])
+def formViewBorrarVenta():
+    if request.method == 'POST':
+        idVenta       = request.form['id']
+        resultData      = eliminarVenta(idVenta)
+
+        if resultData ==1:
+            #Nota: retorno solo un json y no una vista para evitar refescar la vista
+            return jsonify([1])
+            #return jsonify(["respuesta", 1])
+        else: 
+            return jsonify([0])
+
+
+def eliminarVenta(idVenta):
+    print(idVenta)
+    venta_eliminado=coleccionVentas.delete_one({'_id': int(idVenta)})
+    resultado_eliminar=venta_eliminado.deleted_count
+    print(resultado_eliminar)
+    return resultado_eliminar
 ####################################################################################################################################################################
 
+#EMPEÑOS 
+####################################################################################################################################################################
+@app.route('/empeños')
+def empeños():
+    return render_template('public/empeños.html', empeños = listaEmpeños())
 
+
+####################################################################################################################################################################
 
 
 @app.errorhandler(404)

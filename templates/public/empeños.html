@@ -1,6 +1,6 @@
 {% extends 'public/base.html' %}
 
-{% block title%} Ventas {% endblock %}
+{% block title%} Empeños {% endblock %}
 
 
 {% block body %}
@@ -8,7 +8,7 @@
 <div class="container text-center">
     <div class="row mb-3">
         <div class="col-md-12">
-          <h1 class="mt-4 bold-800">Ventas
+          <h1 class="mt-4 bold-800">Empeños
             
             <hr>
           </h1>
@@ -16,7 +16,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <a href="{{ url_for('addVenta') }}" title="Registrar nueva Venta"
+        <a href="#" title="Registrar nueva Empeño"
           class="btn btn-primary btn-lg btn-block btn-sm mb-2" style="float:right">
           <i class="bi bi-plus-circle"></i>
           Nuevo Registro
@@ -25,7 +25,7 @@
     </div>
 
 
-{% include 'public/acciones/listaVenta.html' %}
+{% include 'public/acciones/listaEmpeño.html' %}
 
 
 {% endblock %}

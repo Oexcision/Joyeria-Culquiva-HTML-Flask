@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
+from datetime import datetime
+
 client = MongoClient("mongodb+srv://ocontreras:onesmile159@cluster0.ug30h2w.mongodb.net/?retryWrites=true&w=majority", server_api=ServerApi('1'))
 db = client.Joyeria
 coleccionProductos=db['Producto'] 
@@ -244,11 +246,134 @@ def listaVentas():
   }
 ])
     return ventas
+def registrarVentaClienteRegistrado(dniCliente='', idProducto='', cantidad='',userName=''):
+    ultimo_documento = coleccionVentas.find_one(sort=[('_id', -1)])
+    ultimo_id = ultimo_documento['_id']
+    nuevo_id = int(int(ultimo_id) + 1)
 
+#INSERTANDO CUENTAUSUARIO
+    doc_cliente=coleccionClientes.find_one({'DNI_Cliente':dniCliente})
+    doc_cuentaUsuario=coleccionCuentaUsuario.find_one({'Username':userName})
+    doc_empleado=coleccionEmpleados.find_one({'_id':doc_cuentaUsuario['_id']})
+    doc_producto = coleccionProductos.find_one({'_id':idProducto})
+
+    print(doc_cliente)
+    print(doc_cuentaUsuario)
+    print(doc_empleado)
+    print(doc_producto)
+    if cantidad <= doc_producto['Stock']:
+      resultado_insert=coleccionVentas.insert_one({"_id":nuevo_id,"ID_Cliente":doc_cliente['_id'],"ID_Empleado":doc_empleado['_id'],"ID_Producto":doc_producto['_id'],
+                                        "Cantidad":cantidad,"Total":cantidad*doc_producto['Precio'],"Fecha_Venta":datetime.now()})
+
+      coleccionProductos.update_one({"_id":idProducto},{"$set":{"Stock":doc_producto["Stock"]-cantidad}})
+
+    
+    if resultado_insert.acknowledged == True:
+        resultado_insert = 1
+    else:
+        resultado_insert = 0
+    return resultado_insert
+
+def registrarVentaClienteSinRegistrar(dniCliente='',nombres='',apellidoPaterno='',apellidoMaterno='',correo='',telefono='',fechaNacimiento='', idProducto='', cantidad='',userName=''):
+    ultimo_documento = coleccionClientes.find_one(sort=[('_id', -1)])
+    ultimo_id = ultimo_documento['_id']
+    nuevo_id = int(int(ultimo_id) + 1)
+
+    coleccionClientes.insert_one({'_id':nuevo_id, 'DNI_Cliente':dniCliente,'Nombres':nombres,'ApellidoPaterno':apellidoPaterno,'ApellidoMaterno':apellidoMaterno,
+                            'Correo_Electronico':correo,'Telefono_Contacto':telefono,'Fecha_Nacimiento':fechaNacimiento})
+    
+    
+    
+    ultimo_documento = coleccionVentas.find_one(sort=[('_id', -1)])
+    ultimo_id = ultimo_documento['_id']
+    nuevo_id = int(int(ultimo_id) + 1)
+
+#INSERTANDO CUENTAUSUARIO
+    doc_cliente=coleccionClientes.find_one({'DNI_Cliente':dniCliente})
+    doc_cuentaUsuario=coleccionCuentaUsuario.find_one({'Username':userName})
+    doc_empleado=coleccionEmpleados.find_one({'_id':doc_cuentaUsuario['_id']})
+    doc_producto = coleccionProductos.find_one({'_id':idProducto})
+
+    print(doc_cliente)
+    print(doc_cuentaUsuario)
+    print(doc_empleado)
+    print(doc_producto)
+    if cantidad <= doc_producto['Stock']:
+      resultado_insert=coleccionVentas.insert_one({"_id":nuevo_id,"ID_Cliente":doc_cliente['_id'],"ID_Empleado":doc_empleado['_id'],"ID_Producto":doc_producto['_id'],
+                                        "Cantidad":cantidad,"Total":cantidad*doc_producto['Precio'],"Fecha_Venta":datetime.now()})
+
+      coleccionProductos.update_one({"_id":idProducto},{"$set":{"Stock":doc_producto["Stock"]-cantidad}})
+
+    
+    if resultado_insert.acknowledged == True:
+        resultado_insert = 1
+    else:
+        resultado_insert = 0
+    return resultado_insert
+
+def updateVenta(id=''):
+  #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  ventaEncontrado = list(e for e in listaVentas() if e['_id']  == int(id))[0] 
+  return ventaEncontrado
+
+def detallesVenta(idVenta):
+  #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  ventaEncontrado = list(e for e in listaVentas() if e['_id']  == idVenta)[0] 
+  return ventaEncontrado
+
+def recibeActualizarVenta(idVenta, dniCliente, idEmpleado, producto, cantidad, total, fechaVenta):
+    resultado_insert=coleccionVentas.update_one({"_id":idVenta},{"$set":{"ID_Empleado":idEmpleado,"ID_Producto":producto,
+                              "Cantidad":cantidad,"Total":total,  "Fecha_Venta":fechaVenta}})
+    return resultado_insert.modified_count
 
 ####################################################################################################################################################################
 
+def listaEmpeños():
+ 
+    empeños = coleccionEmpeños.aggregate([
+  {
+    "$lookup": {
+      "from": "Cliente",
+      "localField": "ID_Cliente",
+      "foreignField": "_id",
+      "as": "cliente"
+    }
+  },
+    {
+    "$lookup": {
+      "from": "Empleados",
+      "localField": "ID_Empleado",
+      "foreignField": "_id",
+      "as": "empleados"
+    }
+  },
+  {
+    "$lookup": {
+      "from": "Producto",
+      "localField": "ID_Producto",
+      "foreignField": "_id",
+      "as": "producto"
+    }
+  },
 
+  {
+    "$project": {
+      "_id": 1,
+      "Cliente": { "$arrayElemAt": ["$cliente.DNI_Cliente", 0] },
+      "Empleado": { "$arrayElemAt": ["$empleados._id", 0] },
+      "Producto": { "$arrayElemAt": ["$producto._id", 0] },
+      "Fecha_Empeño": 1,
+      "Fecha_Vencimiento": 1,
+      "Cantidad": 1,
+      "Precio_Unitario": 1,
+      "Estado": 1,
+      "Total": 1,
+      
+      
+    }
+  }
+])
+    return empeños
 
 
 
