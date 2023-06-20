@@ -150,6 +150,36 @@
 
   }  
 </script>
+
+<script>
+  function eliminarEmpeñoJavaScript(id) {
+    //obj = JSON.parse(producto);
+    //alert(obj._id);
+    //id=obj._id;
+    const idR = document.querySelector('#id_'+ id);
+
+    let li = document.querySelector('#Registro_' + id);
+
+    var urlForm = "{{ url_for('formViewBorrarEmpeño') }}";
+    $.ajax({
+      type: "POST",
+      data: { id },
+      url: urlForm,
+      success: function (resp) {
+        console.log(resp)
+        if (resp == 1) {
+          li.remove(); //remuevo el registro desde la lista
+          mensajeAlerta(msg='Registro Eliminado con éxito.', tipo=1); 
+        } else {
+          console.log('Error al intentar borrar el empeño ');
+        }
+      }
+    });
+
+  }  
+</script>
+
+
 <script>
     document.getElementById("btnConsultarCliente").addEventListener("click", function() {
     var dniCliente = document.getElementById("dniCliente").value;

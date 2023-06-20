@@ -375,7 +375,19 @@ def listaEmpeños():
 ])
     return empeños
 
+def updateEmpeño(id=''):
+  #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  empeñoEncontrado = list(e for e in listaEmpeños() if e['_id']  == int(id))[0] 
+  return empeñoEncontrado
 
+def detallesEmpeño(idEmpeño):
+  #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  empeñoEncontrado = list(e for e in listaEmpeños() if e['_id']  == idEmpeño)[0] 
+  return empeñoEncontrado
+
+def recibeActualizarEmpeño(idEmpeño, dniCliente, idEmpleado, producto, fechaEmpeño, fechaVencimiento, cantidad, precioUnitario, estado, total):
+    resultado_insert=coleccionEmpeños.update_one({"_id":idEmpeño},{"$set":{"Fecha_Vencimiento":fechaVencimiento, "Cantidad":cantidad,"Precio_Unitario":precioUnitario,"Total":total}})
+    return resultado_insert.modified_count
 
 
 

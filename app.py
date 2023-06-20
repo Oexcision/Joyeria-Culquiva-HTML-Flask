@@ -521,6 +521,77 @@ def empeños():
     return render_template('public/empeños.html', empeños = listaEmpeños())
 
 
+
+@app.route('/form-update-empeño/<string:id>', methods=['GET','POST'])
+def formViewUpdateEmpeño(id):
+    if request.method == 'GET':
+        resultData = updateEmpeño(id)
+        if resultData:
+            return render_template('public/acciones/updateEmpeño.html',  dataInfo = resultData)
+        else:
+            return render_template('public/empeños.html', empeños = listaEmpeños(), msg='No existe el Empeño', tipo= 1)
+    else:
+        return render_template('public/empeños.html', empeños = listaEmpeños(), msg = 'Metodo HTTP incorrecto', tipo=1)      
+
+@app.route('/ver-detalles-del-empeño/<int:idEmpeno>', methods=['GET', 'POST'])
+def viewDetalleEmpeño(idEmpeno):
+    msg =''
+    if request.method == 'GET':
+        resultData = detallesEmpeño(idEmpeno) #Funcion que almacena los detalles del empeño
+        
+        if resultData:
+            return render_template('public/acciones/viewEmpeño.html', infoEmpeño = resultData, msg='Detalles del Empeño', tipo=1)
+        else:
+            return render_template('public/acciones/empeños.html', msg='No existe el Empeño', tipo=1)
+    return redirect(url_for('inicio'))
+
+@app.route('/actualizar-empeño/<string:idEmpeno>', methods=['POST'])
+def  formActualizarEmpeño(idEmpeno):
+    if request.method == 'POST':
+        dniCliente          = request.form['dniCliente']
+        empleado            = request.form['empleado']
+        producto            = request.form['producto']
+        fechaEmpeño         = request.form['fechaEmpeño']
+        fechaVencimiento    = request.form['fechaVencimiento']
+        cantidad            = request.form['cantidad']
+        precioUnitario      = request.form['precioUnitario']
+        estado              = request.form['estado']
+        total               = request.form['total']
+        
+        
+        fechaEmpeño=datetime.now()
+        fechaVencimiento=datetime.strptime(fechaVencimiento, '%Y-%m-%d').date()
+        #Script para recibir el archivo (foto)
+        resultData = recibeActualizarEmpeño(int(idEmpeno),int(dniCliente),int(empleado), int(producto), fechaEmpeño, fechaVencimiento, int(cantidad), int(precioUnitario), estado, int(total))
+        if(resultData ==1):
+            return render_template('public/empeños.html', empeños = listaEmpeños(), msg='Datos del Empeños actualizados', tipo=1)
+        else:
+            msg ='No se actualizo el registro'
+            return render_template('public/empeños.html', empeños = listaEmpeños(), msg = 'No se pudo actualizar', tipo=1)
+
+
+#Eliminar venta
+@app.route('/borrar-empeño', methods=['GET', 'POST'])
+def formViewBorrarEmpeño():
+    if request.method == 'POST':
+        idEmpeno       = request.form['id']
+        resultData      = eliminarEmpeño(idEmpeno)
+
+        if resultData ==1:
+            #Nota: retorno solo un json y no una vista para evitar refescar la vista
+            return jsonify([1])
+            #return jsonify(["respuesta", 1])
+        else: 
+            return jsonify([0])
+
+
+def eliminarEmpeño(idEmpeno):
+    print(idEmpeno)
+    empeño_eliminado=coleccionEmpeños.delete_one({'_id': int(idEmpeno)})
+    resultado_eliminar=empeño_eliminado.deleted_count
+    print(resultado_eliminar)
+    return resultado_eliminar
+
 ####################################################################################################################################################################
 
 

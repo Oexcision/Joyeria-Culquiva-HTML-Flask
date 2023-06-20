@@ -1,0 +1,49 @@
+{% extends 'public/empeños.html' %}
+{% block title %}Registrar Empeño{% endblock %}
+
+{% block body %}
+
+
+<section>
+    <h2>
+        <a href="/empeños" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
+        Detalles del Venta
+        <hr>
+    </h2>
+
+    {% if (infoEmpeño) %}
+    
+    <!-- {{ infoVenta }} -->
+
+
+    <div class="card" style="width: 25rem;">
+
+        <div class="card-body">
+          <h5 class="card-title"> <strong>{{ infoEmpeño['_id'] }}</strong></h5>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">DNI Cliente: <strong>{{ infoEmpeño['Cliente'] }}</strong></li>
+          <li class="list-group-item">ID Empleado: <strong>{{ infoEmpeño['Empleado'] }}</strong></li>
+          <li class="list-group-item">ID Producto: <strong>{{ infoEmpeño['Producto'] }}</strong></li>
+          <li class="list-group-item">Fecha Empeño: <strong>{{ infoEmpeño['Fecha_Empeño'] }}</strong></li>
+          <li class="list-group-item">Fecha Vencimiento: <strong>{{ infoEmpeño['Fecha_Vencimiento'] }}</strong></li>
+          <li class="list-group-item">Cantidad: <strong>{{ infoEmpeño['Cantidad']}}</strong></li>
+          <li class="list-group-item">Precio Unitario: <strong>{{ infoEmpeño['Precio_Unitario'] }}</strong></li>
+          <li class="list-group-item">Estado: <strong>{{ infoEmpeño['Estado'] }}</strong></li>
+          <li class="list-group-item">Total: <strong>{{ infoEmpeño['Total'] }}</strong></li>
+          
+        </ul>
+      </div>
+
+      {% else %}
+      <div class="col-12">
+          <h2 class="text-center">
+              No existe la Empeño
+          </h2>
+      </div>
+      {% endif %}
+
+</section>
+
+{% endblock %}
