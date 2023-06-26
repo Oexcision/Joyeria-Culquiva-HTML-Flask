@@ -13,6 +13,8 @@ coleccionEmpeños=db['Empeño']
 coleccionEmpleados=db['Empleados']
 coleccionClientes=db['Cliente']
 coleccionCuentaUsuario=db['CuentaUsuario']
+coleccionContrato=db['Contrato']
+coleccionCargo=db['Cargo']
 
 #PRODUCTOS
 ####################################################################################################################################################################
@@ -115,7 +117,8 @@ def listaEmpleados():
 ])
     return empleados
 
-def registrarEmpleado(username='', password='', dniEmpleado='', nombres='', apellidoPaterno='', apellidoMaterno='', fechaNacimiento='',telefono=''):
+def registrarEmpleado(username='', password='', dniEmpleado='', nombres='', apellidoPaterno='', apellidoMaterno='', fechaNacimiento='',
+                      telefono='',remuneracion='',fechaInicio='',fechaFin='',duracion='',cargo=''):
     tipoCuenta=2
     ultimo_documento = coleccionCuentaUsuario.find_one(sort=[('_id', -1)])
     ultimo_id = ultimo_documento['_id']
@@ -127,6 +130,9 @@ def registrarEmpleado(username='', password='', dniEmpleado='', nombres='', apel
 
     resultado_insert=coleccionEmpleados.insert_one({"_id":nuevo_id,"ID_CuentaUsuario":nuevo_id,"DNI_Empleado":dniEmpleado,"Nombres":nombres,
                                         "ApellidoPaterno":apellidoPaterno,"ApellidoMaterno":apellidoMaterno,"Fecha_Nacimiento":fechaNacimiento,"Telefono_Contacto":telefono})
+
+    coleccionContrato.insert_one({"_id":nuevo_id,"Remuneracion":remuneracion,"Fecha_Inicio_Contrato":fechaInicio,"Fecha_Fin_Contrato":fechaFin,"Duracion_Jornada_Diaria":duracion,
+                                    "ID_Empleado":nuevo_id,"ID_Cargo":cargo})
     
     if resultado_insert.acknowledged == True:
         resultado_insert = 1
@@ -374,7 +380,91 @@ def listaEmpeños():
   }
 ])
     return empeños
+#################################################################################################################
+#AÑADIR ADDEMPEÑO
+def registrarEmpeñoClienteRegistrado(dniCliente='', tipoProducto='',material='',piedra='',precio='', cantidad='',
+                                                            fechaEmpeño='',fechafinalEmpeño='', userName=''):
 
+
+#INSERTANDO CUENTAUSUARIO
+    doc_cliente=coleccionClientes.find_one({'DNI_Cliente':dniCliente})
+    doc_cuentaUsuario=coleccionCuentaUsuario.find_one({'Username':userName})
+    doc_empleado=coleccionEmpleados.find_one({'_id':doc_cuentaUsuario['_id']})
+
+    print(doc_cliente)
+
+    ultimo_documento = coleccionProductos.find_one(sort=[('_id', -1)])
+    ultimo_id = ultimo_documento['_id']
+    nuevo_id = int(int(ultimo_id) + 1)
+
+    coleccionProductos.insert_one({"_id":nuevo_id,"ID_Tipo_Producto":tipoProducto,"ID_Material":material,"ID_Piedra":piedra,
+                                  "Precio":precio,"Stock":cantidad})
+    doc_producto=coleccionProductos.find_one({'_id':nuevo_id})
+
+
+
+    ultimo_documento = coleccionEmpeños.find_one(sort=[('_id', -1)])
+    ultimo_id = ultimo_documento['_id']
+    nuevo_id = int(int(ultimo_id) + 1)
+
+    resultado_insert=coleccionEmpeños.insert_one({"_id":nuevo_id,"ID_Cliente":doc_cliente['_id'],"ID_Empleado":doc_empleado['_id'],"ID_Producto":doc_producto['_id'],
+                                      "Fecha_Empeño":fechaEmpeño,"Fecha_Vencimiento":fechafinalEmpeño,"Cantidad":doc_producto['Stock'],"Precio_Unitario":precio,
+                                      "Estado":fechaEmpeño<fechafinalEmpeño,"Total":cantidad*doc_producto['Precio']})
+
+    
+
+    
+    if resultado_insert.acknowledged == True:
+        resultado_insert = 1
+    else:
+        resultado_insert = 0
+    return resultado_insert
+
+def registrarEmpeñoClienteSinRegistrar(dniCliente='',nombres='',apellidoPaterno='',apellidoMaterno='',correo='',telefono='',fechaNacimiento='', idProducto='', cantidad='',userName=''):
+    ultimo_documento = coleccionClientes.find_one(sort=[('_id', -1)])
+    ultimo_id = ultimo_documento['_id']
+    nuevo_id = int(int(ultimo_id) + 1)
+
+    coleccionClientes.insert_one({'_id':nuevo_id, 'DNI_Cliente':dniCliente,'Nombres':nombres,'ApellidoPaterno':apellidoPaterno,'ApellidoMaterno':apellidoMaterno,
+                            'Correo_Electronico':correo,'Telefono_Contacto':telefono,'Fecha_Nacimiento':fechaNacimiento})
+    
+    
+    
+    ultimo_documento = coleccionVentas.find_one(sort=[('_id', -1)])
+    ultimo_id = ultimo_documento['_id']
+    nuevo_id = int(int(ultimo_id) + 1)
+
+#INSERTANDO CUENTAUSUARIO
+    doc_cliente=coleccionClientes.find_one({'DNI_Cliente':dniCliente})
+    doc_cuentaUsuario=coleccionCuentaUsuario.find_one({'Username':userName})
+    doc_empleado=coleccionEmpleados.find_one({'_id':doc_cuentaUsuario['_id']})
+    doc_producto = coleccionProductos.find_one({'_id':idProducto})
+
+    print(doc_cliente)
+    print(doc_cuentaUsuario)
+    print(doc_empleado)
+    print(doc_producto)
+    if cantidad <= doc_producto['Stock']:
+      resultado_insert=coleccionVentas.insert_one({"_id":nuevo_id,"ID_Cliente":doc_cliente['_id'],"ID_Empleado":doc_empleado['_id'],"ID_Producto":doc_producto['_id'],
+                                        "Cantidad":cantidad,"Total":cantidad*doc_producto['Precio'],"Fecha_Venta":datetime.now()})
+
+      coleccionProductos.update_one({"_id":idProducto},{"$set":{"Stock":doc_producto["Stock"]-cantidad}})
+
+    
+    if resultado_insert.acknowledged == True:
+        resultado_insert = 1
+    else:
+        resultado_insert = 0
+    return resultado_insert
+
+
+
+
+
+
+
+
+#################################################################################################################
 def updateEmpeño(id=''):
   #productoEncontrado=coleccionProductos.find_one({"_id":id})
   empeñoEncontrado = list(e for e in listaEmpeños() if e['_id']  == int(id))[0] 

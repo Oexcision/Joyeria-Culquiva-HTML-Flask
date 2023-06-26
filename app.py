@@ -225,15 +225,37 @@ def formAddEmpleado():
     if request.method == 'POST':
         username         = request.form['username']
         password         = request.form['password']
+
         dniEmpleado      = request.form['dniEmpleado']
         nombres          = request.form['nombres']
         apellidoPaterno  = request.form['apellidoPaterno']
         apellidoMaterno  = request.form['apellidoMaterno']
         fechaNacimiento  = request.form['fechaNacimiento']
         telefono         = request.form['telefono']
+
+        remuneracion     = request.form['remuneracion']
+        fechaInicio      = request.form['fechaInicio']
+        fechaFin         = request.form['fechaFin']
+        duracion         = request.form['duracion']
+
+        cargo            = request.form['cargo']
+
+        print(fechaNacimiento,fechaInicio,fechaFin)
+
+        fechaNacimiento=datetime.strptime(str(fechaNacimiento), '%Y-%m-%d')
+        fechaInicio=datetime.strptime(str(fechaInicio), '%Y-%m-%d')
+        fechaFin=datetime.strptime(str(fechaFin), '%Y-%m-%d')
+
+        if cargo ==  "Vendedor":
+            cargo = 1
+        elif cargo   ==  "Orfebre":
+            cargo = 2
+        elif cargo   ==  "Experto Prestamista":
+            cargo = 3
         
+        print(cargo,type(cargo))
         
-        resultData = registrarEmpleado(username, password, int(dniEmpleado), nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento,int(telefono))
+        resultData = registrarEmpleado(username, password, int(dniEmpleado), nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento,int(telefono), int(remuneracion),fechaInicio,fechaFin,int(duracion),int(cargo))
         if(resultData ==1):
             return render_template('public/empleados.html', empleados = listaEmpleados(), msg='El Registro fue un éxito', tipo=1)
         else:
@@ -519,7 +541,87 @@ def eliminarVenta(idVenta):
 @app.route('/empeños')
 def empeños():
     return render_template('public/empeños.html', empeños = listaEmpeños())
+#################################################################################################################
+@app.route('/registrar-empeño', methods=['GET','POST'])
+def addEmpeño():
+    return render_template('public/acciones/addEmpeño.html',empeños=listaEmpeños(),clientes=listaClientes(), tipoProductos=listaTipoProductos(),materiales=listaMateriales(),piedras=listaPiedras())
 
+
+#Registrando nuevo Venta
+@app.route('/empeño', methods=['POST'])
+def formAddEmpeño():
+    if request.method == 'POST':
+
+        dniCliente          = request.form['dniCliente']
+        nombres             = request.form['nombres']
+        apellidoPaterno     = request.form['apellidoPaterno']
+        apellidoMaterno     = request.form['apellidoMaterno']
+        correo              = request.form['correo']
+        telefono            = request.form['telefono']
+        fechaNacimiento     = request.form['fechaNacimiento']
+
+        tipoProducto        = request.form['tipoProducto']
+        material            = request.form['material']
+        piedra              = request.form['piedra']
+        precio              = request.form['precio']
+        cantidad            = request.form['cantidad']
+
+        fechafinalEmpeño    = request.form['fechafinalEmpeño']
+
+        if tipoProducto ==  "Anillo":
+            tipoProducto = 1
+        elif tipoProducto   ==  "Collar":
+            tipoProducto = 2
+        elif tipoProducto   ==  "Pulsera":
+            tipoProducto = 3
+        elif tipoProducto   ==  "Aretes":
+            tipoProducto = 4
+
+        if material ==  "Oro":
+            material=1
+        elif material== "Plata":
+            material=2
+
+        if piedra == "Ninguna":
+            piedra=1
+        elif piedra == "Diamante":
+            piedra=2
+        elif piedra == "Esmeralda":
+            piedra=3
+        elif piedra == "Perlas":
+            piedra=4
+        elif piedra == "Rubí":
+            piedra=5
+        elif piedra == "Fantasía":
+            piedra=6
+        elif piedra == "Amatista":
+            piedra=7
+
+        if fechaNacimiento!='':
+            fechaNacimiento=datetime.strptime(str(fechaNacimiento), '%Y-%m-%d')
+        fechaEmpeño=datetime.now()
+        fechafinalEmpeño=datetime.strptime(str(fechafinalEmpeño), '%Y-%m-%d')
+
+        print(existe)
+        print(session['username'])
+        if existe==True:
+            resultData = registrarEmpeñoClienteRegistrado(int(dniCliente), int(tipoProducto),int(material),int(piedra),int(precio), int(cantidad),
+                                                            fechaEmpeño,fechafinalEmpeño, session['username'])
+            if(resultData ==1):
+                return render_template('public/empeños.html', empeños = listaEmpeños(), msg='El Registro fue un éxito', tipo=1)
+            else:
+                return render_template('public/empeños.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+           
+        else:
+            resultData = registrarEmpeñoClienteSinRegistrar(int(dniCliente),nombres,apellidoPaterno,apellidoMaterno,correo,int(telefono),
+                                                            fechaNacimiento, int(tipoProducto),int(material),int(piedra),int(precio), int(cantidad),
+                                                            fechaEmpeño,fechafinalEmpeño, session['username'])
+            if(resultData ==1):
+                return render_template('public/empeños.html', empeños = listaEmpeños(), msg='El Registro fue un éxito', tipo=1)
+            else:
+                return render_template('public/empeños.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+        
+#################################################################################################################
 
 
 @app.route('/form-update-empeño/<string:id>', methods=['GET','POST'])
@@ -560,7 +662,7 @@ def  formActualizarEmpeño(idEmpeno):
         
         
         fechaEmpeño=datetime.now()
-        fechaVencimiento=datetime.strptime(fechaVencimiento, '%Y-%m-%d').date()
+        fechaVencimiento=datetime.strptime(fechaVencimiento, '%Y-%m-%d %H:%M:%S')
         #Script para recibir el archivo (foto)
         resultData = recibeActualizarEmpeño(int(idEmpeno),int(dniCliente),int(empleado), int(producto), fechaEmpeño, fechaVencimiento, int(cantidad), int(precioUnitario), estado, int(total))
         if(resultData ==1):

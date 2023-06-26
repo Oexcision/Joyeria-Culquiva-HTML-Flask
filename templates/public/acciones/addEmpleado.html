@@ -53,12 +53,54 @@
         <div class="row">
             <div class="col">
                 <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                <input type="text" name="fechaNacimiento" placeholder="YYYY-MM-DD" class="form-control" required>
+                <input type="date" name="fechaNacimiento" placeholder="YYYY-MM-DD" class="form-control" required>
             </div>
             <div class="col">
                 <label for="telefono">Telefono de Contacto</label>
                 <input type="number" name="telefono" placeholder="Telefono de Contacto" class="form-control" required>
             </div>
+        </div>
+
+        <h1>Datos de Cargo:</h1>
+        <div class="row">
+            <div class="col">
+                <label for="cargo">Tipo de Cargo</label>
+                {% with  cargos = ["Vendedor","Orfebre","Experto Prestamista"] %}
+                <select name="cargo" class="form-control">
+                    <option value="">--- Seleccione el Cargo ---</option>
+                    {% for cargo in cargos %}
+                        
+                            <option value="{{ cargo }}">{{ cargo }}</option>
+                        
+                    {% endfor %}
+                </select>
+                {% endwith %}
+            </div>
+        </div>
+
+        <h1>Datos de Contrato:</h1>
+
+        <div class="row">
+
+            <div class="col">
+                <label for="remuneracion">Remuneración</label>
+                <input type="number" name="remuneracion" placeholder="Remuneración" class="form-control" required>
+            </div>
+
+            <div class="col">
+                <label for="fechaInicio">Fecha de Inicio</label>
+                <input type="date" name="fechaInicio" placeholder="YYYY-MM-DD" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="fechaFin">Fecha Fin</label>
+                <input type="date" name="fechaFin" placeholder="YYYY-MM-DD" class="form-control" required>
+            </div>
+
+            <div class="col">
+                <label for="duracion">Duración de Jornada</label>
+                <input type="number" name="duracion" placeholder="Duración de Jornada" class="form-control" required>
+            </div>
+
         </div>
 
 
