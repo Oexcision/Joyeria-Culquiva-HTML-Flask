@@ -324,6 +324,7 @@ def updateVenta(id=''):
 
 def detallesVenta(idVenta):
   #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  #ventaEncontrado =coleccionVentas.find_one({"_id":int(idVenta)})
   ventaEncontrado = list(e for e in listaVentas() if e['_id']  == idVenta)[0] 
   return ventaEncontrado
 
@@ -420,7 +421,8 @@ def registrarEmpeñoClienteRegistrado(dniCliente='', tipoProducto='',material=''
         resultado_insert = 0
     return resultado_insert
 
-def registrarEmpeñoClienteSinRegistrar(dniCliente='',nombres='',apellidoPaterno='',apellidoMaterno='',correo='',telefono='',fechaNacimiento='', idProducto='', cantidad='',userName=''):
+def registrarEmpeñoClienteSinRegistrar(dniCliente='',nombres='',apellidoPaterno='',apellidoMaterno='',correo='',telefono='',fechaNacimiento='', 
+                                        tipoProducto='',material='',piedra='',precio='', cantidad='',fechaEmpeño='',fechafinalEmpeño='', userName=''):
     ultimo_documento = coleccionClientes.find_one(sort=[('_id', -1)])
     ultimo_id = ultimo_documento['_id']
     nuevo_id = int(int(ultimo_id) + 1)
@@ -429,26 +431,29 @@ def registrarEmpeñoClienteSinRegistrar(dniCliente='',nombres='',apellidoPaterno
                             'Correo_Electronico':correo,'Telefono_Contacto':telefono,'Fecha_Nacimiento':fechaNacimiento})
     
     
-    
-    ultimo_documento = coleccionVentas.find_one(sort=[('_id', -1)])
+    doc_cliente=coleccionClientes.find_one({'_id':nuevo_id})
+    doc_cuentaUsuario=coleccionCuentaUsuario.find_one({'Username':userName})
+    doc_empleado=coleccionEmpleados.find_one({'_id':doc_cuentaUsuario['_id']})
+
+    print(doc_cliente)
+
+    ultimo_documento = coleccionProductos.find_one(sort=[('_id', -1)])
     ultimo_id = ultimo_documento['_id']
     nuevo_id = int(int(ultimo_id) + 1)
 
-#INSERTANDO CUENTAUSUARIO
-    doc_cliente=coleccionClientes.find_one({'DNI_Cliente':dniCliente})
-    doc_cuentaUsuario=coleccionCuentaUsuario.find_one({'Username':userName})
-    doc_empleado=coleccionEmpleados.find_one({'_id':doc_cuentaUsuario['_id']})
-    doc_producto = coleccionProductos.find_one({'_id':idProducto})
+    coleccionProductos.insert_one({"_id":nuevo_id,"ID_Tipo_Producto":tipoProducto,"ID_Material":material,"ID_Piedra":piedra,
+                                  "Precio":precio,"Stock":cantidad})
+    doc_producto=coleccionProductos.find_one({'_id':nuevo_id})
 
-    print(doc_cliente)
-    print(doc_cuentaUsuario)
-    print(doc_empleado)
-    print(doc_producto)
-    if cantidad <= doc_producto['Stock']:
-      resultado_insert=coleccionVentas.insert_one({"_id":nuevo_id,"ID_Cliente":doc_cliente['_id'],"ID_Empleado":doc_empleado['_id'],"ID_Producto":doc_producto['_id'],
-                                        "Cantidad":cantidad,"Total":cantidad*doc_producto['Precio'],"Fecha_Venta":datetime.now()})
 
-      coleccionProductos.update_one({"_id":idProducto},{"$set":{"Stock":doc_producto["Stock"]-cantidad}})
+
+    ultimo_documento = coleccionEmpeños.find_one(sort=[('_id', -1)])
+    ultimo_id = ultimo_documento['_id']
+    nuevo_id = int(int(ultimo_id) + 1)
+
+    resultado_insert=coleccionEmpeños.insert_one({"_id":nuevo_id,"ID_Cliente":doc_cliente['_id'],"ID_Empleado":doc_empleado['_id'],"ID_Producto":doc_producto['_id'],
+                                      "Fecha_Empeño":fechaEmpeño,"Fecha_Vencimiento":fechafinalEmpeño,"Cantidad":doc_producto['Stock'],"Precio_Unitario":precio,
+                                      "Estado":fechaEmpeño<fechafinalEmpeño,"Total":cantidad*doc_producto['Precio']})
 
     
     if resultado_insert.acknowledged == True:

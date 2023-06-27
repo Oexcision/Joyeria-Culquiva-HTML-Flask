@@ -19,9 +19,9 @@
     <div class="card" style="width: 25rem;">
 
         <div class="card-body">
-          <h5 class="card-title"> <strong>{{ infoVenta['_id'] }}</strong></h5>
+          <h5 class="card-title"> ID Venta: <strong>{{ infoVenta['_id'] }}</strong></h5>
         </div>
-
+        <!--<h3>Datos de Cliente: </h3>-->
         <ul class="list-group list-group-flush">
           <li class="list-group-item">DNI Cliente: <strong>{{ infoVenta['Cliente'] }}</strong></li>
           <li class="list-group-item">ID Empleado: <strong>{{ infoVenta['Empleado'] }}</strong></li>
@@ -30,7 +30,7 @@
           <li class="list-group-item">Total: <strong>{{ infoVenta['Total'] }}</strong></li>
           <li class="list-group-item">Fecha Venta: <strong>{{ infoVenta['Fecha_Venta'] }}</strong></li>
         </ul>
-      </div>
+    </div>
 
       {% else %}
       <div class="col-12">
