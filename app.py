@@ -12,13 +12,16 @@ app = Flask(__name__)
 app.secret_key = 'clave-secreta'
 msg  =''
 tipo =''
+tipo_cuenta=0
 
 #################################################################################################################
 @app.route('/')
 def home():
     if 'username' in session:
+        global tipo_cuenta
         nombre= list(e for e in listaCuentaUsuarios()  if e['Username']  == session['username'])[0] 
-        return render_template('public/home.html', name=nombre)
+        tipo_cuenta=nombre['ID_TipoCuentaUsuario']
+        return render_template('public/home.html', name=nombre, tipo_cuenta=tipo_cuenta)
     else:
         return redirect('/login')
 
@@ -53,12 +56,12 @@ def logout():
 #Creando mi decorador para el home, el cual retornara la Lista de Productos
 @app.route('/productos')
 def productos():
-    return render_template('public/productos.html', productos = listaProductos())
+    return render_template('public/productos.html', productos = listaProductos(), tipo_cuenta=tipo_cuenta)
 
 #RUTAS
 @app.route('/registrar-producto', methods=['GET','POST'])
 def addProducto():
-    return render_template('public/acciones/addProducto.html',tipoProductos=listaTipoProductos(),materiales=listaMateriales(),piedras=listaPiedras())
+    return render_template('public/acciones/addProducto.html',tipoProductos=listaTipoProductos(),materiales=listaMateriales(),piedras=listaPiedras() , tipo_cuenta=tipo_cuenta)
 
 #Registrando nuevo Producto
 @app.route('/producto', methods=['POST'])
@@ -102,9 +105,9 @@ def formAddProducto():
 
         resultData = registrarProducto(tipoProducto, material, piedra, int(precio), int(stock))
         if(resultData ==1):
-            return render_template('public/productos.html', productos = listaProductos(), msg='El Registro fue un éxito', tipo=1)
+            return render_template('public/productos.html', productos = listaProductos(), msg='El Registro fue un éxito', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/productos.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+            return render_template('public/productos.html', msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)   
         
 
 @app.route('/form-update-producto/<string:id>', methods=['GET','POST'])
@@ -112,11 +115,11 @@ def formViewUpdateProducto(id):
     if request.method == 'GET':
         resultData = updateProducto(id)
         if resultData:
-            return render_template('public/acciones/updateProducto.html',  dataInfo = resultData)
+            return render_template('public/acciones/updateProducto.html',  dataInfo = resultData, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/productos.html', productos = listaProductos(), msg='No existe el producto', tipo= 1)
+            return render_template('public/productos.html', productos = listaProductos(), msg='No existe el producto', tipo= 1, tipo_cuenta=tipo_cuenta)
     else:
-        return render_template('public/productos.html', productos = listaProductos(), msg = 'Metodo HTTP incorrecto', tipo=1)          
+        return render_template('public/productos.html', productos = listaProductos(), msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)          
  
 
 @app.route('/ver-detalles-del-producto/<int:idProducto>', methods=['GET', 'POST'])
@@ -126,9 +129,9 @@ def viewDetalleProducto(idProducto):
         resultData = detallesProducto(idProducto) #Funcion que almacena los detalles del producto
         
         if resultData:
-            return render_template('public/acciones/viewProducto.html', infoProducto = resultData, msg='Detalles del Producto', tipo=1)
+            return render_template('public/acciones/viewProducto.html', infoProducto = resultData, msg='Detalles del Producto', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/acciones/productos.html', msg='No existe el Producto', tipo=1)
+            return render_template('public/acciones/productos.html', msg='No existe el Producto', tipo=1, tipo_cuenta=tipo_cuenta)
     return redirect(url_for('inicio'))
     
 @app.route('/actualizar-producto/<string:idProducto>', methods=['POST'])
@@ -172,10 +175,10 @@ def  formActualizarProducto(idProducto):
         #Script para recibir el archivo (foto)
         resultData = recibeActualizarProducto(int(idProducto), int(tipoProducto), int(material), int(piedra), int(precio), int(stock))
         if(resultData ==1):
-            return render_template('public/productos.html', productos = listaProductos(), msg='Datos del producto actualizados', tipo=1)
+            return render_template('public/productos.html', productos = listaProductos(), msg='Datos del producto actualizados', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
             msg ='No se actualizo el registro'
-            return render_template('public/productos.html', productos = listaProductos(), msg = 'No se pudo actualizar', tipo=1) 
+            return render_template('public/productos.html', productos = listaProductos(), msg = 'No se pudo actualizar', tipo=1, tipo_cuenta=tipo_cuenta) 
 
 #Eliminar producto
 @app.route('/borrar-producto', methods=['GET', 'POST'])
@@ -212,12 +215,12 @@ def eliminarProducto(idProducto):
 #####################################################################################################################################################################
 @app.route('/empleados')
 def empleados():
-    return render_template('public/empleados.html', empleados = listaEmpleados())
+    return render_template('public/empleados.html', empleados = listaEmpleados(), tipo_cuenta=tipo_cuenta)
 
 #RUTAS
 @app.route('/registrar-empleado', methods=['GET','POST'])
 def addEmpleado():
-    return render_template('public/acciones/addEmpleado.html')
+    return render_template('public/acciones/addEmpleado.html', tipo_cuenta=tipo_cuenta)
 
 #Registrando nuevo Empleado
 @app.route('/empleado', methods=['POST'])
@@ -257,9 +260,9 @@ def formAddEmpleado():
         
         resultData = registrarEmpleado(username, password, int(dniEmpleado), nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento,int(telefono), int(remuneracion),fechaInicio,fechaFin,int(duracion),int(cargo))
         if(resultData ==1):
-            return render_template('public/empleados.html', empleados = listaEmpleados(), msg='El Registro fue un éxito', tipo=1)
+            return render_template('public/empleados.html', empleados = listaEmpleados(), msg='El Registro fue un éxito', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/empleados.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+            return render_template('public/empleados.html', msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)   
 
 
 
@@ -268,11 +271,11 @@ def formViewUpdateEmpleado(id):
     if request.method == 'GET':
         resultData = updateEmpleado(id)
         if resultData:
-            return render_template('public/acciones/updateEmpleado.html',  dataInfo = resultData)
+            return render_template('public/acciones/updateEmpleado.html',  dataInfo = resultData, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/empleados.html', empleados = listaEmpleados(), msg='No existe el empleado', tipo= 1)
+            return render_template('public/empleados.html', empleados = listaEmpleados(), msg='No existe el empleado', tipo= 1, tipo_cuenta=tipo_cuenta)
     else:
-        return render_template('public/empleados.html', empleados = listaEmpleados(), msg = 'Metodo HTTP incorrecto', tipo=1)      
+        return render_template('public/empleados.html', empleados = listaEmpleados(), msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)      
 
 
 @app.route('/ver-detalles-del-empleado/<int:idEmpleado>', methods=['GET', 'POST'])
@@ -282,9 +285,9 @@ def viewDetalleEmpleado(idEmpleado):
         resultData = detallesEmpleado(idEmpleado) #Funcion que almacena los detalles del producto
         
         if resultData:
-            return render_template('public/acciones/viewEmpleado.html', infoEmpleado = resultData, msg='Detalles del Empleado', tipo=1)
+            return render_template('public/acciones/viewEmpleado.html', infoEmpleado = resultData, msg='Detalles del Empleado', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/acciones/empleados.html', msg='No existe el Empleado', tipo=1)
+            return render_template('public/acciones/empleados.html', msg='No existe el Empleado', tipo=1, tipo_cuenta=tipo_cuenta)
     return redirect(url_for('inicio'))
 
 
@@ -303,10 +306,10 @@ def  formActualizarEmpleado(idEmpleado):
         #Script para recibir el archivo (foto)
         resultData = recibeActualizarEmpleado(int(idEmpleado),int(dniEmpleado), nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento,int(telefono))
         if(resultData ==1):
-            return render_template('public/empleados.html', empleados = listaEmpleados(), msg='Datos del empleado actualizados', tipo=1)
+            return render_template('public/empleados.html', empleados = listaEmpleados(), msg='Datos del empleado actualizados', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
             msg ='No se actualizo el registro'
-            return render_template('public/empleados.html', empleados = listaEmpleados(), msg = 'No se pudo actualizar', tipo=1)
+            return render_template('public/empleados.html', empleados = listaEmpleados(), msg = 'No se pudo actualizar', tipo=1, tipo_cuenta=tipo_cuenta)
 
 #Eliminar empleado
 @app.route('/borrar-empleado', methods=['GET', 'POST'])
@@ -336,18 +339,18 @@ def eliminarEmpleado(idEmpleado):
 
 @app.route('/clientes')
 def clientes():
-    return render_template('public/clientes.html', clientes = listaClientes())
+    return render_template('public/clientes.html', clientes = listaClientes(), tipo_cuenta=tipo_cuenta)
 
 @app.route('/form-update-cliente/<string:id>', methods=['GET','POST'])
 def formViewUpdateCliente(id):
     if request.method == 'GET':
         resultData = updateCliente(id)
         if resultData:
-            return render_template('public/acciones/updateCliente.html',  dataInfo = resultData)
+            return render_template('public/acciones/updateCliente.html',  dataInfo = resultData, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/clientes.html', clientes = listaClientes(), msg='No existe el cliente', tipo= 1)
+            return render_template('public/clientes.html', clientes = listaClientes(), msg='No existe el cliente', tipo= 1, tipo_cuenta=tipo_cuenta)
     else:
-        return render_template('public/clientes.html', clientes = listaClientes(), msg = 'Metodo HTTP incorrecto', tipo=1)      
+        return render_template('public/clientes.html', clientes = listaClientes(), msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)   
 
 @app.route('/ver-detalles-del-cliente/<int:idCliente>', methods=['GET', 'POST'])
 def viewDetalleCliente(idCliente):
@@ -356,9 +359,9 @@ def viewDetalleCliente(idCliente):
         resultData = detallesCliente(idCliente) #Funcion que almacena los detalles del producto
         
         if resultData:
-            return render_template('public/acciones/viewCliente.html', infoCliente = resultData, msg='Detalles del Cliente', tipo=1)
+            return render_template('public/acciones/viewCliente.html', infoCliente = resultData, msg='Detalles del Cliente', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/acciones/clientes.html', msg='No existe el Cliente', tipo=1)
+            return render_template('public/acciones/clientes.html', msg='No existe el Cliente', tipo=1, tipo_cuenta=tipo_cuenta)
     return redirect(url_for('inicio'))
 
 @app.route('/actualizar-cliente/<string:idCliente>', methods=['POST'])
@@ -377,10 +380,10 @@ def  formActualizarCliente(idCliente):
         #Script para recibir el archivo (foto)
         resultData = recibeActualizarCliente(int(idCliente),int(dniCliente), nombres, apellidoPaterno, apellidoMaterno, correo,int(telefono),fechaNacimiento)
         if(resultData ==1):
-            return render_template('public/clientes.html', clientes = listaClientes(), msg='Datos del cliente actualizados', tipo=1)
+            return render_template('public/clientes.html', clientes = listaClientes(), msg='Datos del cliente actualizados', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
             msg ='No se actualizo el registro'
-            return render_template('public/clientes.html', clientes = listaClientes(), msg = 'No se pudo actualizar', tipo=1)
+            return render_template('public/clientes.html', clientes = listaClientes(), msg = 'No se pudo actualizar', tipo=1, tipo_cuenta=tipo_cuenta)
 
 
 #Eliminar cliente
@@ -426,11 +429,11 @@ def consultar_cliente():
     
 @app.route('/ventas')
 def ventas():
-    return render_template('public/ventas.html', ventas = listaVentas())
+    return render_template('public/ventas.html', ventas = listaVentas(), tipo_cuenta=tipo_cuenta)
 
 @app.route('/registrar-venta', methods=['GET','POST'])
 def addVenta():
-    return render_template('public/acciones/addVenta.html',ventas=listaVentas(),clientes=listaClientes())
+    return render_template('public/acciones/addVenta.html',ventas=listaVentas(),clientes=listaClientes(), tipo_cuenta=tipo_cuenta)
 
 
 #Registrando nuevo Venta
@@ -453,16 +456,16 @@ def formAddVenta():
         if existe==True:
             resultData = registrarVentaClienteRegistrado(int(dniCliente), int(idProducto), int(cantidad), session['username'])
             if(resultData ==1):
-                return render_template('public/ventas.html', ventas = listaVentas(), msg='El Registro fue un éxito', tipo=1)
+                return render_template('public/ventas.html', ventas = listaVentas(), msg='El Registro fue un éxito', tipo=1, tipo_cuenta=tipo_cuenta)
             else:
-                return render_template('public/ventas.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+                return render_template('public/ventas.html', msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)   
            
         else:
             resultData = registrarVentaClienteSinRegistrar(int(dniCliente),nombres,apellidoPaterno,apellidoMaterno,correo,int(telefono),fechaNacimiento, int(idProducto), int(cantidad), session['username'])
             if(resultData ==1):
-                return render_template('public/ventas.html', ventas = listaVentas(), msg='El Registro fue un éxito', tipo=1)
+                return render_template('public/ventas.html', ventas = listaVentas(), msg='El Registro fue un éxito', tipo=1, tipo_cuenta=tipo_cuenta)
             else:
-                return render_template('public/ventas.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+                return render_template('public/ventas.html', msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)   
         
 
 
@@ -475,11 +478,11 @@ def formViewUpdateVenta(id):
     if request.method == 'GET':
         resultData = updateVenta(id)
         if resultData:
-            return render_template('public/acciones/updateVenta.html',  dataInfo = resultData)
+            return render_template('public/acciones/updateVenta.html',  dataInfo = resultData, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/ventas.html', ventas = listaVentas(), msg='No existe la Venta', tipo= 1)
+            return render_template('public/ventas.html', ventas = listaVentas(), msg='No existe la Venta', tipo= 1, tipo_cuenta=tipo_cuenta)
     else:
-        return render_template('public/ventas.html', ventas = listaVentas(), msg = 'Metodo HTTP incorrecto', tipo=1)      
+        return render_template('public/ventas.html', ventas = listaVentas(), msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)      
 
 @app.route('/ver-detalles-del-venta/<int:idVenta>', methods=['GET', 'POST'])
 def viewDetalleVenta(idVenta):
@@ -488,9 +491,9 @@ def viewDetalleVenta(idVenta):
         resultData = detallesVenta(idVenta) #Funcion que almacena los detalles del venta
         
         if resultData:
-            return render_template('public/acciones/viewVenta.html', infoVenta = resultData, msg='Detalles del Venta', tipo=1)
+            return render_template('public/acciones/viewVenta.html', infoVenta = resultData, msg='Detalles del Venta', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/acciones/ventas.html', msg='No existe la Venta', tipo=1)
+            return render_template('public/acciones/ventas.html', msg='No existe la Venta', tipo=1, tipo_cuenta=tipo_cuenta)
     return redirect(url_for('inicio'))
 
 @app.route('/actualizar-venta/<string:idVenta>', methods=['POST'])
@@ -508,10 +511,10 @@ def  formActualizarVenta(idVenta):
         #Script para recibir el archivo (foto)
         resultData = recibeActualizarVenta(int(idVenta),int(dniCliente),int(empleado), int(producto), int(cantidad), int(total), fechaVenta)
         if(resultData ==1):
-            return render_template('public/ventas.html', ventas = listaVentas(), msg='Datos de la Venta actualizados', tipo=1)
+            return render_template('public/ventas.html', ventas = listaVentas(), msg='Datos de la Venta actualizados', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
             msg ='No se actualizo el registro'
-            return render_template('public/ventas.html', ventas = listaVentas(), msg = 'No se pudo actualizar', tipo=1)
+            return render_template('public/ventas.html', ventas = listaVentas(), msg = 'No se pudo actualizar', tipo=1, tipo_cuenta=tipo_cuenta)
 
 
 #Eliminar venta
@@ -541,11 +544,11 @@ def eliminarVenta(idVenta):
 ####################################################################################################################################################################
 @app.route('/empeños')
 def empeños():
-    return render_template('public/empeños.html', empeños = listaEmpeños())
+    return render_template('public/empeños.html', empeños = listaEmpeños(), tipo_cuenta=tipo_cuenta)
 #################################################################################################################
 @app.route('/registrar-empeño', methods=['GET','POST'])
 def addEmpeño():
-    return render_template('public/acciones/addEmpeño.html',empeños=listaEmpeños(),clientes=listaClientes(), tipoProductos=listaTipoProductos(),materiales=listaMateriales(),piedras=listaPiedras())
+    return render_template('public/acciones/addEmpeño.html',empeños=listaEmpeños(),clientes=listaClientes(), tipoProductos=listaTipoProductos(),materiales=listaMateriales(),piedras=listaPiedras(), tipo_cuenta=tipo_cuenta)
 
 
 #Registrando nuevo Venta
@@ -609,18 +612,18 @@ def formAddEmpeño():
             resultData = registrarEmpeñoClienteRegistrado(int(dniCliente), int(tipoProducto),int(material),int(piedra),int(precio), int(cantidad),
                                                             fechaEmpeño,fechafinalEmpeño, session['username'])
             if(resultData ==1):
-                return render_template('public/empeños.html', empeños = listaEmpeños(), msg='El Registro fue un éxito', tipo=1)
+                return render_template('public/empeños.html', empeños = listaEmpeños(), msg='El Registro fue un éxito', tipo=1, tipo_cuenta=tipo_cuenta)
             else:
-                return render_template('public/empeños.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+                return render_template('public/empeños.html', msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)   
            
         else:
             resultData = registrarEmpeñoClienteSinRegistrar(int(dniCliente),nombres,apellidoPaterno,apellidoMaterno,correo,int(telefono),
                                                             fechaNacimiento, int(tipoProducto),int(material),int(piedra),int(precio), int(cantidad),
                                                             fechaEmpeño,fechafinalEmpeño, session['username'])
             if(resultData ==1):
-                return render_template('public/empeños.html', empeños = listaEmpeños(), msg='El Registro fue un éxito', tipo=1)
+                return render_template('public/empeños.html', empeños = listaEmpeños(), msg='El Registro fue un éxito', tipo=1, tipo_cuenta=tipo_cuenta)
             else:
-                return render_template('public/empeños.html', msg = 'Metodo HTTP incorrecto', tipo=1)   
+                return render_template('public/empeños.html', msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)   
         
 #################################################################################################################
 
@@ -630,11 +633,11 @@ def formViewUpdateEmpeño(id):
     if request.method == 'GET':
         resultData = updateEmpeño(id)
         if resultData:
-            return render_template('public/acciones/updateEmpeño.html',  dataInfo = resultData)
+            return render_template('public/acciones/updateEmpeño.html',  dataInfo = resultData, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/empeños.html', empeños = listaEmpeños(), msg='No existe el Empeño', tipo= 1)
+            return render_template('public/empeños.html', empeños = listaEmpeños(), msg='No existe el Empeño', tipo= 1, tipo_cuenta=tipo_cuenta)
     else:
-        return render_template('public/empeños.html', empeños = listaEmpeños(), msg = 'Metodo HTTP incorrecto', tipo=1)      
+        return render_template('public/empeños.html', empeños = listaEmpeños(), msg = 'Metodo HTTP incorrecto', tipo=1, tipo_cuenta=tipo_cuenta)      
 
 @app.route('/ver-detalles-del-empeño/<int:idEmpeno>', methods=['GET', 'POST'])
 def viewDetalleEmpeño(idEmpeno):
@@ -643,9 +646,9 @@ def viewDetalleEmpeño(idEmpeno):
         resultData = detallesEmpeño(idEmpeno) #Funcion que almacena los detalles del empeño
         
         if resultData:
-            return render_template('public/acciones/viewEmpeño.html', infoEmpeño = resultData, msg='Detalles del Empeño', tipo=1)
+            return render_template('public/acciones/viewEmpeño.html', infoEmpeño = resultData, msg='Detalles del Empeño', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
-            return render_template('public/acciones/empeños.html', msg='No existe el Empeño', tipo=1)
+            return render_template('public/acciones/empeños.html', msg='No existe el Empeño', tipo=1, tipo_cuenta=tipo_cuenta)
     return redirect(url_for('inicio'))
 
 @app.route('/actualizar-empeño/<string:idEmpeno>', methods=['POST'])
@@ -667,10 +670,10 @@ def  formActualizarEmpeño(idEmpeno):
         #Script para recibir el archivo (foto)
         resultData = recibeActualizarEmpeño(int(idEmpeno),int(dniCliente),int(empleado), int(producto), fechaEmpeño, fechaVencimiento, int(cantidad), int(precioUnitario), estado, int(total))
         if(resultData ==1):
-            return render_template('public/empeños.html', empeños = listaEmpeños(), msg='Datos del Empeños actualizados', tipo=1)
+            return render_template('public/empeños.html', empeños = listaEmpeños(), msg='Datos del Empeños actualizados', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
             msg ='No se actualizo el registro'
-            return render_template('public/empeños.html', empeños = listaEmpeños(), msg = 'No se pudo actualizar', tipo=1)
+            return render_template('public/empeños.html', empeños = listaEmpeños(), msg = 'No se pudo actualizar', tipo=1, tipo_cuenta=tipo_cuenta)
 
 
 #Eliminar venta

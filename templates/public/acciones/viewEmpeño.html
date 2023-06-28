@@ -7,7 +7,7 @@
 <section>
     <h2>
         <a href="/empeños" class="left" title="Volver"><i class="bi bi-arrow-left-circle"></i></a>
-        Detalles del Venta
+        Detalles del Empeño
         <hr>
     </h2>
 
@@ -16,24 +16,44 @@
     <!-- {{ infoVenta }} -->
 
 
-    <div class="card" style="width: 25rem;">
+    <div class="card" style="width: 30rem;">
 
         <div class="card-body">
-          <h5 class="card-title"> <strong>{{ infoEmpeño['_id'] }}</strong></h5>
+          <h2 class="card-title"> <strong>Empeño: ID (# {{ infoEmpeño['_id'] }})</strong></h2>
         </div>
 
+        <h3>Datos de Cliente: </h3>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">DNI Cliente: <strong>{{ infoEmpeño['Cliente'] }}</strong></li>
-          <li class="list-group-item">ID Empleado: <strong>{{ infoEmpeño['Empleado'] }}</strong></li>
+          <li class="list-group-item">DNI: <strong>{{ infoEmpeño['Cliente'] }}</strong></li>
+          <li class="list-group-item">Nombres y Apellidos: <strong>{{ infoEmpeño['ClienteNombres'] }} {{ infoEmpeño['ClienteApellidoPaterno'] }} {{ infoEmpeño['ClienteApellidoMaterno'] }}</strong></li>
+          <li class="list-group-item">Correo: <strong>{{ infoEmpeño['ClienteCorreo_Electronico'] }}</strong></li>
+          <li class="list-group-item">Telefono: <strong>{{ infoEmpeño['ClienteTelefono_Contacto'] }}</strong></li>
+          <li class="list-group-item">Fecha de Nacimiento: <strong>{{ infoEmpeño['ClienteFecha_Nacimiento'] }}</strong></li>
+        </ul>
+
+        <h3>Datos de Empleado: ID (# {{ infoEmpeño['Empleado'] }})</h3>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">DNI: <strong>{{ infoEmpeño['EmpleadoDNI_Empleado'] }}</strong></li>
+          <li class="list-group-item">Nombres y Apellidos: <strong>{{ infoEmpeño['EmpleadoNombres'] }} {{ infoEmpeño['EmpleadoApellidoPaterno'] }} {{ infoEmpeño['EmpleadoApellidoMaterno'] }}</strong></li>
+          <li class="list-group-item">Telefono: <strong>{{ infoEmpeño['EmpleadoTelefono_Contacto'] }}</strong></li>
+          <li class="list-group-item">Fecha de Nacimiento: <strong>{{ infoEmpeño['EmpleadoFecha_Nacimiento'] }}</strong></li>
+        </ul>
+
+        <h3>Datos de Producto: ID (# {{ infoEmpeño['Producto'] }})</h3>
+        <ul class="list-group list-group-flush">
           <li class="list-group-item">ID Producto: <strong>{{ infoEmpeño['Producto'] }}</strong></li>
-          <li class="list-group-item">Fecha Empeño: <strong>{{ infoEmpeño['Fecha_Empeño'] }}</strong></li>
-          <li class="list-group-item">Fecha Vencimiento: <strong>{{ infoEmpeño['Fecha_Vencimiento'] }}</strong></li>
           <li class="list-group-item">Cantidad: <strong>{{ infoEmpeño['Cantidad']}}</strong></li>
           <li class="list-group-item">Precio Unitario: <strong>{{ infoEmpeño['Precio_Unitario'] }}</strong></li>
-          <li class="list-group-item">Estado: <strong>{{ infoEmpeño['Estado'] }}</strong></li>
-          <li class="list-group-item">Total: <strong>{{ infoEmpeño['Total'] }}</strong></li>
-          
         </ul>
+
+        <h3>Datos de Empeño: </h3>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Fecha Empeño: <strong>{{ infoEmpeño['Fecha_Empeño'] }}</strong></li>
+          <li class="list-group-item">Fecha Vencimiento: <strong>{{ infoEmpeño['Fecha_Vencimiento'] }}</strong></li>
+          <li class="list-group-item">Estado: <strong>{{ infoEmpeño['Estado'] }}</strong></li>
+          <li class="list-group-item">Total: <strong>{{ infoEmpeño['Total'] }}</strong></li> 
+        </ul>
+
       </div>
 
       {% else %}

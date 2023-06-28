@@ -242,7 +242,21 @@ def listaVentas():
     "$project": {
       "_id": 1,
       "Cliente": { "$arrayElemAt": ["$cliente.DNI_Cliente", 0] },
+      "ClienteNombres": { "$arrayElemAt": ["$cliente.Nombres", 0] },
+      "ClienteApellidoPaterno": { "$arrayElemAt": ["$cliente.ApellidoPaterno", 0] },
+      "ClienteApellidoMaterno": { "$arrayElemAt": ["$cliente.ApellidoMaterno", 0] },
+      "ClienteCorreo_Electronico": { "$arrayElemAt": ["$cliente.Correo_Electronico", 0] },
+      "ClienteTelefono_Contacto": { "$arrayElemAt": ["$cliente.Telefono_Contacto", 0] },
+      "ClienteFecha_Nacimiento": { "$arrayElemAt": ["$cliente.Fecha_Nacimiento", 0] },
+
       "Empleado": { "$arrayElemAt": ["$empleados._id", 0] },
+      "EmpleadoDNI_Empleado": { "$arrayElemAt": ["$empleados.DNI_Empleado", 0] },
+      "EmpleadoNombres": { "$arrayElemAt": ["$empleados.Nombres", 0] },
+      "EmpleadoApellidoPaterno": { "$arrayElemAt": ["$empleados.ApellidoPaterno", 0] },
+      "EmpleadoApellidoMaterno": { "$arrayElemAt": ["$empleados.ApellidoMaterno", 0] },
+      "EmpleadoFecha_Nacimiento": { "$arrayElemAt": ["$empleados.Fecha_Nacimiento", 0] },
+      "EmpleadoTelefono_Contacto": { "$arrayElemAt": ["$empleados.Telefono_Contacto", 0] },
+
       "Producto": { "$arrayElemAt": ["$producto._id", 0] },
       "Cantidad": 1,
       "Total": 1,
@@ -367,7 +381,24 @@ def listaEmpeños():
     "$project": {
       "_id": 1,
       "Cliente": { "$arrayElemAt": ["$cliente.DNI_Cliente", 0] },
+      "ClienteNombres": { "$arrayElemAt": ["$cliente.Nombres", 0] },
+      "ClienteApellidoPaterno": { "$arrayElemAt": ["$cliente.ApellidoPaterno", 0] },
+      "ClienteApellidoMaterno": { "$arrayElemAt": ["$cliente.ApellidoMaterno", 0] },
+      "ClienteCorreo_Electronico": { "$arrayElemAt": ["$cliente.Correo_Electronico", 0] },
+      "ClienteTelefono_Contacto": { "$arrayElemAt": ["$cliente.Telefono_Contacto", 0] },
+      "ClienteFecha_Nacimiento": { "$arrayElemAt": ["$cliente.Fecha_Nacimiento", 0] },
+
+
       "Empleado": { "$arrayElemAt": ["$empleados._id", 0] },
+      "EmpleadoDNI_Empleado": { "$arrayElemAt": ["$empleados.DNI_Empleado", 0] },
+      "EmpleadoNombres": { "$arrayElemAt": ["$empleados.Nombres", 0] },
+      "EmpleadoApellidoPaterno": { "$arrayElemAt": ["$empleados.ApellidoPaterno", 0] },
+      "EmpleadoApellidoMaterno": { "$arrayElemAt": ["$empleados.ApellidoMaterno", 0] },
+      "EmpleadoFecha_Nacimiento": { "$arrayElemAt": ["$empleados.Fecha_Nacimiento", 0] },
+      "EmpleadoTelefono_Contacto": { "$arrayElemAt": ["$empleados.Telefono_Contacto", 0] },
+
+
+
       "Producto": { "$arrayElemAt": ["$producto._id", 0] },
       "Fecha_Empeño": 1,
       "Fecha_Vencimiento": 1,
