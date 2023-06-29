@@ -450,7 +450,8 @@ def formAddVenta():
         fechaNacimiento     = request.form['fechaNacimiento']
         idProducto          = request.form['idProducto']
         cantidad            = request.form['cantidad']
-        fechaNacimiento=datetime.strptime(str(fechaNacimiento), '%Y-%m-%d')
+        if fechaNacimiento!='':
+            fechaNacimiento=datetime.strptime(str(fechaNacimiento), '%Y-%m-%d')
         print(existe)
         print(session['username'])
         if existe==True:
