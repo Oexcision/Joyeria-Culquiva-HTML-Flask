@@ -283,9 +283,10 @@ def viewDetalleEmpleado(idEmpleado):
     msg =''
     if request.method == 'GET':
         resultData = detallesEmpleado(idEmpleado) #Funcion que almacena los detalles del producto
+        resultDataContrato = detallesContrato(idEmpleado)
         
         if resultData:
-            return render_template('public/acciones/viewEmpleado.html', infoEmpleado = resultData, msg='Detalles del Empleado', tipo=1, tipo_cuenta=tipo_cuenta)
+            return render_template('public/acciones/viewEmpleado.html', infoEmpleado = resultData, infoContrato = resultDataContrato, msg='Detalles del Empleado', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
             return render_template('public/acciones/empleados.html', msg='No existe el Empleado', tipo=1, tipo_cuenta=tipo_cuenta)
     return redirect(url_for('inicio'))

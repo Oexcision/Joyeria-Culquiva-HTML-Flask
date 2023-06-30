@@ -156,7 +156,36 @@ def recibeActualizarEmpleado(idEmpleado, dniEmpleado, nombres, apellidoPaterno, 
     return resultado_insert.modified_count
 ####################################################################################################################################################################
 
+def listaContratos():
+  contratos = coleccionContrato.aggregate([
+  {
+    "$lookup": {
+      "from": "Cargo",
+      "localField": "ID_Cargo",
+      "foreignField": "_id",
+      "as": "cargo"
+    }
+  },
 
+  {
+    "$project": {
+      "_id": 1,
+      "Remuneracion": 1,
+      "Fecha_Inicio_Contrato": 1,
+      "Fecha_Fin_Contrato": 1,
+      "Duracion_Jornada_Diaria": 1,
+      "ID_Empleado": 1,
+      "ID_Cargo": { "$arrayElemAt": ["$cargo.Tipo_Cargo", 0] }
+
+    }
+  }
+])
+  return contratos
+
+def detallesContrato(idEmpleado):
+  #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  contratoEncontrado = list(e for e in listaContratos() if e['_id']  == idEmpleado)[0] 
+  return contratoEncontrado
 
 
 

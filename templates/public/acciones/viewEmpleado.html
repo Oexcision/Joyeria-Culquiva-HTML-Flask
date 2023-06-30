@@ -21,7 +21,7 @@
         <div class="card-body">
           <h5 class="card-title"> <strong>Empleado: ID (# {{ infoEmpleado['_id'] }})</strong></h5>
         </div>
-
+        <h3>Datos de Empleado: </h3>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">ID Cuenta Usuario: <strong>{{ infoEmpleado['Cuenta_Usuario'] }}</strong></li>
           <li class="list-group-item">DNI Empleado: <strong>{{ infoEmpleado['DNI_Empleado'] }}</strong></li>
@@ -31,7 +31,18 @@
           <li class="list-group-item">Fecha Nacimiento: <strong>{{ infoEmpleado['Fecha_Nacimiento'] }}</strong></li>
           <li class="list-group-item">Telefono: <strong>{{ infoEmpleado['Telefono_Contacto'] }}</strong></li>
         </ul>
+
+        <h3>Datos de Contrato:  ID (# {{ infoContrato['_id'] }})</h3>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Remuneracion: <strong>{{ infoContrato['Remuneracion'] }}</strong></li>
+          <li class="list-group-item">Fecha de Inicio: <strong>{{ infoContrato['Fecha_Inicio_Contrato'] }}</strong></li>
+          <li class="list-group-item">Fecha Final: <strong>{{ infoContrato['Fecha_Fin_Contrato'] }}</strong></li>
+          <li class="list-group-item">Duración de Jornada Diaria: <strong>{{ infoContrato['Duracion_Jornada_Diaria'] }}</strong></li>
+          <li class="list-group-item">ID Cargo: <strong>{{ infoContrato['ID_Cargo'] }}</strong></li>
+        </ul>
+
       </div>
+
 
       {% else %}
       <div class="col-12">
