@@ -270,8 +270,9 @@ def formAddEmpleado():
 def formViewUpdateEmpleado(id):
     if request.method == 'GET':
         resultData = updateEmpleado(id)
+        resultDataContrato = updateContrato(id)
         if resultData:
-            return render_template('public/acciones/updateEmpleado.html',  dataInfo = resultData, tipo_cuenta=tipo_cuenta)
+            return render_template('public/acciones/updateEmpleado.html',  dataInfo = resultData, dataInfoContrato=resultDataContrato, tipo_cuenta=tipo_cuenta)
         else:
             return render_template('public/empleados.html', empleados = listaEmpleados(), msg='No existe el empleado', tipo= 1, tipo_cuenta=tipo_cuenta)
     else:
@@ -301,11 +302,25 @@ def  formActualizarEmpleado(idEmpleado):
         apellidoMaterno  = request.form['apellidoMaterno']
         fechaNacimiento  = request.form['fechaNacimiento']
         telefono         = request.form['telefono']
-        
 
+        remuneracion     = request.form['remuneracion']
+        fechaInicio      = request.form['fechaInicio']
+        fechaFin         = request.form['fechaFin']
+        duracion         = request.form['duracion']
+
+        cargo            = request.form['cargo']
         
+        if cargo ==  "Vendedor":
+            cargo = 1
+        elif cargo   ==  "Orfebre":
+            cargo = 2
+        elif cargo   ==  "Experto Prestamista":
+            cargo = 3
+        fechaInicio=datetime.strptime(fechaInicio, '%Y-%m-%d %H:%M:%S')
+        fechaFin=datetime.strptime(fechaFin, '%Y-%m-%d %H:%M:%S')
         #Script para recibir el archivo (foto)
-        resultData = recibeActualizarEmpleado(int(idEmpleado),int(dniEmpleado), nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento,int(telefono))
+        resultData = recibeActualizarEmpleado(int(idEmpleado),int(dniEmpleado), nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento,int(telefono),
+                                            int(remuneracion), fechaInicio, fechaFin,int(duracion),int(cargo))
         if(resultData ==1):
             return render_template('public/empleados.html', empleados = listaEmpleados(), msg='Datos del empleado actualizados', tipo=1, tipo_cuenta=tipo_cuenta)
         else:

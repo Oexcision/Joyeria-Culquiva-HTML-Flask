@@ -150,9 +150,12 @@ def detallesEmpleado(idEmpleado):
   productoEncontrado = list(e for e in listaEmpleados() if e['_id']  == idEmpleado)[0] 
   return productoEncontrado
 
-def recibeActualizarEmpleado(idEmpleado, dniEmpleado, nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento,telefono):
+def recibeActualizarEmpleado(idEmpleado, dniEmpleado, nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento,telefono,
+                              remuneracion, fechaInicio, fechaFin,duracion,cargo):
     resultado_insert=coleccionEmpleados.update_one({"_id":idEmpleado},{"$set":{"ID_CuentaUsuario":idEmpleado,"DNI_Empleado":dniEmpleado,"Nombres":nombres,
                                         "ApellidoPaterno":apellidoPaterno,"ApellidoMaterno":apellidoMaterno,"Fecha_Nacimiento":fechaNacimiento,"Telefono_Contacto":telefono}})
+    coleccionContrato.update_one({"_id":idEmpleado},{"$set":{"Remuneracion":remuneracion,"Fecha_Inicio_Contrato":fechaInicio,"Fecha_Fin_Contrato":fechaFin,
+                                  "Duracion_Jornada_Diaria":duracion,"ID_Cargo":cargo}})
     return resultado_insert.modified_count
 ####################################################################################################################################################################
 
@@ -181,6 +184,10 @@ def listaContratos():
   }
 ])
   return contratos
+def updateContrato(id=''):
+  #productoEncontrado=coleccionProductos.find_one({"_id":id})
+  contratoEncontrado = list(e for e in listaContratos() if e['_id']  == int(id))[0] 
+  return contratoEncontrado
 
 def detallesContrato(idEmpleado):
   #productoEncontrado=coleccionProductos.find_one({"_id":id})
