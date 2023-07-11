@@ -41,7 +41,11 @@
 
         <h3>Datos de Producto: ID (# {{ infoEmpeño['Producto'] }})</h3>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">ID Producto: <strong>{{ infoEmpeño['Producto'] }}</strong></li>
+          <li class="list-group-item">Tipo Producto: <strong>{{ infoProducto['Tipo_Producto'] }}</strong></li>
+          <li class="list-group-item">Material: <strong>{{ infoProducto['Material'] }}</strong></li>
+          <li class="list-group-item">Piedra: <strong>{{ infoProducto['Piedra'] }}</strong></li>
+          <li class="list-group-item">Precio: <strong>{{ infoProducto['Precio'] }}</strong></li>
+          <!--<li class="list-group-item">Stock: <strong>{{ infoProducto['Stock']}}</strong></li>-->
           <li class="list-group-item">Cantidad: <strong>{{ infoEmpeño['Cantidad']}}</strong></li>
           <li class="list-group-item">Precio Unitario: <strong>{{ infoEmpeño['Precio_Unitario'] }}</strong></li>
         </ul>

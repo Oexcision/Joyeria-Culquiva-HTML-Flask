@@ -32,9 +32,21 @@
     </div>
 
 </div>
-<div>
-    {% include 'public/pie.html' %}
+
+<div class="row">
+    
+    <div class="col">
+        <p2>Productos más vendidos</p2>
+        {% include 'public/pie.html' %}
+    </div>
+    <div class="col">
+        <p2>Clientes con más compras</p2>
+        {% include 'public/bar.html' %}
+    </div>
+    
 </div>
+
+
 
 
 

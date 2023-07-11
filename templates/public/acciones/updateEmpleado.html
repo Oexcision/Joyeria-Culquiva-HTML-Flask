@@ -60,9 +60,11 @@
                 <select name="cargo" class="form-control">
                     <option value="">--- Seleccione el Cargo ---</option>
                     {% for cargo in cargos %}
-                        
+                        {% if(piedra == dataInfo['Piedra']) %}
+                            <option value="{{ cargo }}" selected>{{ cargo }}</option>
+                        {% else %}
                             <option value="{{ cargo }}">{{ cargo }}</option>
-                        
+                            {% endif %}
                     {% endfor %}
                 </select>
                 {% endwith %}

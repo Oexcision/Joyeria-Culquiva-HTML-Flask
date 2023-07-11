@@ -39,11 +39,15 @@
           <li class="list-group-item">Fecha de Nacimiento: <strong>{{ infoVenta['EmpleadoFecha_Nacimiento'] }}</strong></li>
         </ul>
 
-        <h3>Datos de Producto: ID (# {{ infoVenta['Producto'] }})</h3>
+        <h3>Datos de Producto: ID (# {{ infoVenta['Producto'] }})</h3>      
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">ID Producto: <strong>{{ infoVenta['Producto'] }}</strong></li>
-          <li class="list-group-item">Cantidad: <strong>{{ infoVenta['Cantidad']}}</strong></li>
+          <li class="list-group-item">Tipo Producto: <strong>{{ infoProducto['Tipo_Producto'] }}</strong></li>
+          <li class="list-group-item">Material: <strong>{{ infoProducto['Material'] }}</strong></li>
+          <li class="list-group-item">Piedra: <strong>{{ infoProducto['Piedra'] }}</strong></li>
+          <li class="list-group-item">Precio: <strong>{{ infoProducto['Precio'] }}</strong></li>
+          <!--<li class="list-group-item">Stock: <strong>{{ infoProducto['Stock']}}</strong></li>-->
         </ul>
+        
 
         <h3>Datos de Venta: </h3>
         <ul class="list-group list-group-flush">

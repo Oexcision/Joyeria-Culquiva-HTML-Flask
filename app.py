@@ -316,6 +316,8 @@ def  formActualizarEmpleado(idEmpleado):
             cargo = 2
         elif cargo   ==  "Experto Prestamista":
             cargo = 3
+
+        fechaNacimiento=datetime.strptime(fechaNacimiento, '%Y-%m-%d %H:%M:%S')
         fechaInicio=datetime.strptime(fechaInicio, '%Y-%m-%d %H:%M:%S')
         fechaFin=datetime.strptime(fechaFin, '%Y-%m-%d %H:%M:%S')
         #Script para recibir el archivo (foto)
@@ -506,9 +508,11 @@ def viewDetalleVenta(idVenta):
     msg =''
     if request.method == 'GET':
         resultData = detallesVenta(idVenta) #Funcion que almacena los detalles del venta
+        resultDataProducto = detallesProducto(resultData['Producto'])
+        print(resultDataProducto)
         
         if resultData:
-            return render_template('public/acciones/viewVenta.html', infoVenta = resultData, msg='Detalles del Venta', tipo=1, tipo_cuenta=tipo_cuenta)
+            return render_template('public/acciones/viewVenta.html', infoVenta = resultData, infoProducto=resultDataProducto, msg='Detalles del Venta', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
             return render_template('public/acciones/ventas.html', msg='No existe la Venta', tipo=1, tipo_cuenta=tipo_cuenta)
     return redirect(url_for('inicio'))
@@ -661,9 +665,10 @@ def viewDetalleEmpeño(idEmpeno):
     msg =''
     if request.method == 'GET':
         resultData = detallesEmpeño(idEmpeno) #Funcion que almacena los detalles del empeño
+        resultDataProducto = detallesProducto(resultData['Producto'])
         
         if resultData:
-            return render_template('public/acciones/viewEmpeño.html', infoEmpeño = resultData, msg='Detalles del Empeño', tipo=1, tipo_cuenta=tipo_cuenta)
+            return render_template('public/acciones/viewEmpeño.html', infoEmpeño = resultData, infoProducto=resultDataProducto, msg='Detalles del Empeño', tipo=1, tipo_cuenta=tipo_cuenta)
         else:
             return render_template('public/acciones/empeños.html', msg='No existe el Empeño', tipo=1, tipo_cuenta=tipo_cuenta)
     return redirect(url_for('inicio'))
