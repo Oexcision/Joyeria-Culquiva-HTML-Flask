@@ -5,7 +5,7 @@
 {% block body %}
 
 <h1>Bienvenido: "{{ name['Nombres'] }} {{ name['ApellidoPaterno'] }} {{name['ApellidoMaterno'] }}"</h1>
-<div>
+<div class="buttonsDiv">
     <div class="col-button-one">
         <a href="{{ url_for('ventas') }}">
             <button class="button-one"><img class="metafora" src="static/assets/imgs/sale.png">VENTAS</button>
@@ -34,14 +34,19 @@
 </div>
 
 <div class="row">
-    
+
     <div class="col">
-        <p2>Productos más vendidos</p2>
-        {% include 'public/pie.html' %}
+        <h2>Productos más vendidos</h2>
+        <div class="pie"> 
+            {% include 'public/pie.html' %} 
+        </div> 
     </div>
+
     <div class="col">
-        <p2>Clientes con más compras</p2>
-        {% include 'public/bar.html' %}
+        <h2>Clientes con más compras</h2>
+        <div class="bar"> 
+            {% include 'public/bar.html' %}
+        </div> 
     </div>
     
 </div>

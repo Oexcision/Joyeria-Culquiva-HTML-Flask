@@ -271,6 +271,7 @@ def formViewUpdateEmpleado(id):
     if request.method == 'GET':
         resultData = updateEmpleado(id)
         resultDataContrato = updateContrato(id)
+        print(resultDataContrato)
         if resultData:
             return render_template('public/acciones/updateEmpleado.html',  dataInfo = resultData, dataInfoContrato=resultDataContrato, tipo_cuenta=tipo_cuenta)
         else:

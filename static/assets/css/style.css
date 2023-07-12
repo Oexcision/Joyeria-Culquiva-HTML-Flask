@@ -143,3 +143,14 @@ img.metafora{
     background-color: #FF00FF !important;
 }
 */
+.buttonsDiv {
+    margin-bottom: 30px; /* Agrega margen inferior de 20px */
+  }
+.pie {
+    border: 3px solid  #008888; 
+    padding: 10px; /* Opcional: agrega un relleno para separar el contenido del borde */
+  }
+  .bar {
+    border: 3px solid #008888; 
+    padding: 10px; /* Opcional: agrega un relleno para separar el contenido del borde */
+  }

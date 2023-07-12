@@ -154,9 +154,9 @@ def recibeActualizarEmpleado(idEmpleado, dniEmpleado, nombres, apellidoPaterno, 
                               remuneracion, fechaInicio, fechaFin,duracion,cargo):
     resultado_insert=coleccionEmpleados.update_one({"_id":idEmpleado},{"$set":{"ID_CuentaUsuario":idEmpleado,"DNI_Empleado":dniEmpleado,"Nombres":nombres,
                                         "ApellidoPaterno":apellidoPaterno,"ApellidoMaterno":apellidoMaterno,"Fecha_Nacimiento":fechaNacimiento,"Telefono_Contacto":telefono}})
-    coleccionContrato.update_one({"_id":idEmpleado},{"$set":{"Remuneracion":remuneracion,"Fecha_Inicio_Contrato":fechaInicio,"Fecha_Fin_Contrato":fechaFin,
+    resultado_insert2=coleccionContrato.update_one({"_id":idEmpleado},{"$set":{"Remuneracion":remuneracion,"Fecha_Inicio_Contrato":fechaInicio,"Fecha_Fin_Contrato":fechaFin,
                                   "Duracion_Jornada_Diaria":duracion,"ID_Cargo":cargo}})
-    return resultado_insert.modified_count
+    return resultado_insert.modified_count or resultado_insert2.modified_count
 ####################################################################################################################################################################
 
 def listaContratos():
