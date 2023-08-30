@@ -28,12 +28,15 @@ Tecnologías Utilizadas
 
 Instrucciones de Uso
 1. Clona este repositorio en tu máquina local.
-  git clone https://github.com/Oexcision/Joyeria-Culquiva-HTML-Flask.git
 
-2. Instala las dependencias necesarias. Se recomienda crear un entorno virtual antes de la instalación.
+   git clone https://github.com/Oexcision/Joyeria-Culquiva-HTML-Flask.git
+
+3. Instala las dependencias necesarias. Se recomienda crear un entorno virtual antes de la instalación.
+
    pip install -r requirements.txt
 
-3. Ejecuta la aplicación.
+5. Ejecuta la aplicación.
+
    python app.py
 
 Contribuciones
