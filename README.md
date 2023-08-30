@@ -41,6 +41,7 @@ Instrucciones de Uso
    python app.py
    
 4. Abre tu navegador y visita http://localhost:8000 para acceder a la aplicación.
+
 Contribuciones
 
 Las contribuciones son bienvenidas. Si encuentras algún error o tienes sugerencias para mejorar la aplicación, no dudes en abrir un issue o enviar un pull request.
