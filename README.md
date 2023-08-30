@@ -5,29 +5,29 @@ como ventas, productos, empeños, clientes y empleados. La aplicación utiliza u
 
 Características
 
- • Gestión de Ventas: Registra y visualiza las ventas realizadas, incluyendo detalles de los productos vendidos, fechas y precios.
+ 1. Gestión de Ventas: Registra y visualiza las ventas realizadas, incluyendo detalles de los productos vendidos, fechas y precios.
 
- • Gestión de Productos: Permite agregar, editar y eliminar productos del inventario, con detalles como nombre, descripción, precio y cantidad disponible.
+ 2. Gestión de Productos: Permite agregar, editar y eliminar productos del inventario, con detalles como nombre, descripción, precio y cantidad disponible.
 
- • Empeños: Permite registrar artículos empeñados, incluyendo información sobre el cliente, el artículo y las condiciones del empeño.
+ 3. Empeños: Permite registrar artículos empeñados, incluyendo información sobre el cliente, el artículo y las condiciones del empeño.
 
- • Gestión de Clientes: Registra los datos de los clientes, incluyendo nombre, contacto y dirección.
+ 4. Gestión de Clientes: Registra los datos de los clientes, incluyendo nombre, contacto y dirección.
 
- • Gestión de Empleados: Administra la información de los empleados de la joyería.
+ 5. Gestión de Empleados: Administra la información de los empleados de la joyería.
 
 Tecnologías Utilizadas
 
- • Python: El lenguaje de programación principal utilizado para desarrollar la lógica de la aplicación.
+ 1. Python: El lenguaje de programación principal utilizado para desarrollar la lógica de la aplicación.
 
- • HTML y CSS: Utilizados para crear la interfaz de usuario y dar estilo a la aplicación.
+ 2. HTML y CSS: Utilizados para crear la interfaz de usuario y dar estilo a la aplicación.
 
- • Flask: Framework web de Python utilizado para construir la aplicación web y gestionar las rutas y vistas.
+ 3. Flask: Framework web de Python utilizado para construir la aplicación web y gestionar las rutas y vistas.
 
- • MongoDB: Base de datos NoSQL utilizada para almacenar los datos de la aplicación.
+ 4. MongoDB: Base de datos NoSQL utilizada para almacenar los datos de la aplicación.
 
- • PyMongo: Biblioteca de Python utilizada para interactuar con la base de datos MongoDB.
+ 5. PyMongo: Biblioteca de Python utilizada para interactuar con la base de datos MongoDB.
 
- • Matplotlib (pyplot): Utilizado para generar gráficos y visualizaciones de datos, como informes de ventas.
+ 6. Matplotlib (pyplot): Utilizado para generar gráficos y visualizaciones de datos, como informes de ventas.
 
 Instrucciones de Uso
 
